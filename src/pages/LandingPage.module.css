@@ -1,0 +1,353 @@
+/* src/pages/LandingPage.module.css */
+.container {
+  width: 100%;    
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Hero Section */
+.heroSection {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);
+  padding: 120px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.heroTitle {
+  color: #1b5e20;
+  font-weight: 800;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  font-size: 3.5rem !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.heroSubtitle {
+  color: #424242;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.3rem !important;
+  text-align: center;
+}
+
+.heroButton {
+  background: linear-gradient(45deg, #2e7d32 0%, #4caf50 100%) !important;
+  color: white !important;
+  padding: 12px 30px !important;
+  border-radius: 30px !important;
+  font-weight: bold !important;
+  transition: transform 0.3s, box-shadow 0.3s !important;
+  position: relative;
+  z-index: 1;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2) !important;
+}
+
+.heroButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3) !important;
+}
+
+/* Quienes Somos Section */
+.quienesSomosSection {
+  background: linear-gradient(45deg, #1b5e20 0%, #2e7d32 100%);
+  padding: 80px 20px;
+  color: white;
+  position: relative;
+}
+
+.quienesSomosSection::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(135deg, #1b5e20 0%, #1b5e20 50%, transparent 50%, transparent 100%);
+  transform: rotate(180deg);
+  z-index: 2;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 50px;
+  font-weight: 700;
+  position: relative;
+  font-size: 2.5rem !important;
+}
+
+.sectionTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: #81c784;
+  border-radius: 2px;
+}
+
+/* Añadir margen superior al contenedor Grid */
+.quienesSomosSection > div {
+  margin-top: 60px;
+}
+
+.sectionText {
+  line-height: 1.8;
+  font-size: 1.1rem !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  padding-right: 20px;
+}
+
+.imagePlaceholder {
+  background: linear-gradient(45deg, rgba(76, 175, 80, 0.7) 0%, rgba(102, 187, 106, 0.7) 100%), 
+              url('https://images.pexels.com/photos/2284170/pexels-photo-2284170.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat center center;
+  background-size: cover;
+  height: 300px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+  overflow: hidden;
+}
+
+/* Nuestro Proceso Section */
+.procesoSection {
+  background-color: #f9f9f9;
+  padding: 100px 20px 80px;
+  margin-bottom: 5rem;
+  position: relative;
+
+}
+
+.stepBox {
+  background: white;
+  color: #333;
+  padding: 40px 25px;
+  border-radius: 15px;
+  text-align: center;
+  height: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-bottom: 5px solid #4caf50;
+  position: relative;
+  top: 0;
+}
+
+.stepBox:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.stepTitle {
+  margin-bottom: 20px;
+  color: #2e7d32;
+  font-weight: 700;
+  font-size: 1.5rem !important;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.stepTitle::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: #4caf50;
+  border-radius: 2px;
+}
+
+/* Registro Section */
+.registroSection {
+  background: url('https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+  background-size: cover;
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.registroSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(27, 94, 32, 0.9) 0%, rgba(46, 125, 50, 0.8) 100%);
+}
+
+.registroText {
+  margin-bottom: 30px;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  font-size: 2.2rem !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.registroButton {
+  background: white !important;
+  color: #2e7d32 !important;
+  padding: 12px 35px !important;
+  border-radius: 30px !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.registroButton:hover {
+  background: #f9f9f9 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Contacto Section */
+.contactoSection {
+  background-color: #ffffff;
+  padding: 80px 20px;
+  position: relative;
+}
+
+.contactForm {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+}
+
+.submitButton {
+  background: linear-gradient(45deg, #2e7d32 0%, #4caf50 100%) !important;
+  color: white !important;
+  margin-top: 30px !important;
+  padding: 12px 30px !important;
+  border-radius: 30px !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.2) !important;
+}
+
+.submitButton:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3) !important;
+}
+
+/* Responsividad */
+@media (max-width: 960px) {
+  .heroSection {
+    padding: 80px 20px;
+  }
+
+  .heroTitle {
+    font-size: 2.8rem !important;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.1rem !important;
+  }
+  
+  .sectionTitle::after {
+    width: 15%;
+    min-width: 60px;
+  }
+  
+  .stepTitle::after {
+    width: 15%;
+    min-width: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .heroSection {
+    padding: 60px 15px;
+  }
+
+  .heroTitle {
+    font-size: 2.2rem !important;
+  }
+  
+  .heroSubtitle {
+    font-size: 1rem !important;
+  }
+
+  .quienesSomosSection,
+  .procesoSection,
+  .registroSection,
+  .contactoSection {
+    padding: 50px 15px;
+  }
+
+  .sectionTitle {
+    font-size: 2rem !important;
+  }
+  
+  .sectionTitle::after {
+    width: 20%;
+    min-width: 50px;
+  }
+
+  .registroText {
+    font-size: 1.8rem !important;
+  }
+
+  .stepBox {
+    margin-bottom: 20px;
+    padding: 30px 20px;
+  }
+  
+  .stepTitle::after {
+    width: 20%;
+    min-width: 40px;
+  }
+  
+  .imagePlaceholder {
+    height: 250px;
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+  
+  .sectionText {
+    padding-right: 0;
+  }
+}
+
+/* Para dispositivos muy pequeños */
+@media (max-width: 400px) {
+  .sectionTitle::after,
+  .stepTitle::after {
+    width: 25%;
+    min-width: 40px;
+  }
+}

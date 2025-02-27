@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Ajustar DataGrid */
+:global(.MuiDataGrid-root) {
+  width: 100% !important; /* Forzar que ocupe todo el ancho */
+}
