@@ -1,16 +1,26 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Grid, Image, Text, Button, Badge, Card, Avatar, Rating } from "@mantine/core"
-import { Carousel } from "@mantine/carousel"
-import { ShieldCheck } from "lucide-react"
-import RelatedProducts from "./related-products"
+import { useState } from "react";
+import {
+  Grid,
+  Image,
+  Text,
+  Button,
+  Badge,
+  Card,
+  Avatar,
+  Rating,
+} from "@mantine/core";
+import { Carousel } from "@mantine/carousel";
+import { ShieldCheck } from "lucide-react";
+import RelatedProducts from "./related-products";
+import { Product } from "@/types/product";
 
 // Simulated product data
-const product = {
+const product: Product = {
   id: "1",
   name: "Semillas de Maíz Premium",
-  price: 120.0,
+  basePrice: 120.0,
   images: [
     "/placeholder.svg?height=400&width=400",
     "/placeholder.svg?height=400&width=400",
@@ -29,23 +39,46 @@ const product = {
     { label: "Rendimiento Potencial", value: "12-14 toneladas/hectárea" },
   ],
   reviews: [
-    { id: 1, user: "Juan Pérez", rating: 5, comment: "Excelente producto, muy buen rendimiento en mi campo." },
-    { id: 2, user: "María Gómez", rating: 4, comment: "Buena calidad de semillas, germinarón rápidamente." },
+    {
+      id: 1,
+      user: "Juan Pérez",
+      rating: 5,
+      comment: "Excelente producto, muy buen rendimiento en mi campo.",
+    },
+    {
+      id: 2,
+      user: "María Gómez",
+      rating: 4,
+      comment: "Buena calidad de semillas, germinarón rápidamente.",
+    },
   ],
-}
+};
 
 interface ProductDetailProps {
-  productId: string
+  productId: string;
 }
 
 export default function ProductDetail({ productId }: ProductDetailProps) {
-  const [mainImage, setMainImage] = useState(product.images[0])
+  const [mainImage, setMainImage] = useState(product.images[0]);
 
   return (
     <Grid gutter="xl">
       <Grid.Col span={{ base: 12, md: 6 }}>
-        <Image src={mainImage || "/placeholder.svg"} alt={product.name} height={400} fit="contain" />
-        <Carousel withIndicators height={100} slideSize="25%" slideGap="sm" loop align="start" slidesToScroll={4}>
+        <Image
+          src={mainImage || "/placeholder.svg"}
+          alt={product.name}
+          height={400}
+          fit="contain"
+        />
+        <Carousel
+          withIndicators
+          height={100}
+          slideSize="25%"
+          slideGap="sm"
+          loop
+          align="start"
+          slidesToScroll={4}
+        >
           {product.images.map((img, index) => (
             <Carousel.Slide key={index}>
               <Image
@@ -67,7 +100,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
           {product.name}
         </Text>
         <Text size="xl" fw={700} c="green" my="md">
-          ${product.price.toFixed(2)}
+          ${product.basePrice}
         </Text>
         <Badge color="green" size="lg" variant="light" mb="md">
           {product.condition}
@@ -92,7 +125,11 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
               </Text>
             </div>
           </div>
-          <Badge leftSection={<ShieldCheck size={14} />} color="blue" variant="light">
+          <Badge
+            leftSection={<ShieldCheck size={14} />}
+            color="blue"
+            variant="light"
+          >
             Vendedor Verificado
           </Badge>
         </Card>
@@ -106,7 +143,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
           Detalles Técnicos
         </Text>
         <ul className="list-disc pl-5 mb-xl">
-          {product.technicalDetails.map((detail, index) => (
+          {product.technicalDetails!.map((detail, index) => (
             <li key={index}>
               <Text>
                 <strong>{detail.label}:</strong> {detail.value}
@@ -118,7 +155,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
         <Text fw={700} mb="xs">
           Reseñas
         </Text>
-        {product.reviews.map((review) => (
+        {product.reviews!.map((review) => (
           <Card key={review.id} withBorder mb="md">
             <Text fw={500}>{review.user}</Text>
             <Rating value={review.rating} readOnly />
@@ -134,6 +171,5 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
         <RelatedProducts category={product.category} />
       </Grid.Col>
     </Grid>
-  )
+  );
 }
-

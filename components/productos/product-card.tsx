@@ -1,16 +1,20 @@
-import { Card, Image, Text, Button, Badge } from "@mantine/core"
-import Link from "next/link"
-import type { Product } from "@/types/product"
+import { Card, Image, Text, Button, Badge } from "@mantine/core";
+import Link from "next/link";
+import type { Product } from "@/types/product";
 
 interface ProductCardProps {
-  product: Product
+  product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
-        <Image src={product.image || "/placeholder.svg"} height={160} alt={product.name} />
+        <Image
+          src={product.images[0] || "/placeholder.svg"}
+          height={160}
+          alt={product.name}
+        />
       </Card.Section>
 
       <Text fw={500} mt="md">
@@ -21,17 +25,23 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Text>
 
       <Text fw={700} size="xl" mt="md">
-        ${product.price.toFixed(2)}
+        ${product.basePrice}
       </Text>
 
       <Badge color="green" variant="light" mt="xs">
         {product.condition}
       </Badge>
 
-      <Button component={Link} href={`/productos/${product.id}`} color="green" fullWidth mt="md" radius="md">
+      <Button
+        component={Link}
+        href={`/productos/${product.id}`}
+        color="green"
+        fullWidth
+        mt="md"
+        radius="md"
+      >
         Ver Detalle
       </Button>
     </Card>
-  )
+  );
 }
-

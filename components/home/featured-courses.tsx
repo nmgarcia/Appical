@@ -5,13 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Clock } from "lucide-react";
 
+const urlPlaceholder =
+  "https://media.istockphoto.com/id/1026156302/es/foto/agricultores-con-semillas-de-girasol-en-la-mano.jpg?s=612x612&w=0&k=20&c=huel6UeWkT3aJ7gvmiUFNnJdQyK8g2G8pyFFTWYhwF0=";
+
 const courses = [
   {
     id: 1,
     title: "Técnicas Modernas de Cultivo",
     duration: "8 horas",
     price: 49.99,
-    image: "/placeholder.svg?height=200&width=350",
+    image: urlPlaceholder,
     instructor: "Dr. Carlos Mendoza",
   },
   {
@@ -19,7 +22,7 @@ const courses = [
     title: "Manejo Sostenible de Plagas",
     duration: "6 horas",
     price: 39.99,
-    image: "/placeholder.svg?height=200&width=350",
+    image: urlPlaceholder,
     instructor: "Ing. Laura Pérez",
   },
   {
@@ -27,7 +30,7 @@ const courses = [
     title: "Optimización de Sistemas de Riego",
     duration: "10 horas",
     price: 59.99,
-    image: "/placeholder.svg?height=200&width=350",
+    image: urlPlaceholder,
     instructor: "Ing. Roberto Gómez",
   },
 ];
@@ -80,7 +83,7 @@ export default function FeaturedCourses() {
 
                 <div className="flex justify-between items-center mt-4">
                   <p className="text-xl font-bold text-green-700">
-                    ${course.price.toFixed(2)}
+                    ${course.price}
                   </p>
                   <Button
                     component={Link}

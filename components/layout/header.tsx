@@ -16,7 +16,7 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/placeholder.svg?height=40&width=40"
+            src="/placeholder-logo.png"
             alt="Appical Logo"
             width={40}
             height={40}

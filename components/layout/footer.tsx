@@ -1,6 +1,6 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -10,7 +10,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Image
-                src="/placeholder.svg?height=40&width=40"
+                src="/placeholder-logo.png"
                 alt="Appical Logo"
                 width={40}
                 height={40}
@@ -19,7 +19,8 @@ export default function Footer() {
               <span className="text-xl font-bold text-white">Appical</span>
             </Link>
             <p className="text-gray-300 mb-4">
-              Conectando el campo con el futuro. La plataforma líder para el sector agropecuario.
+              Conectando el campo con el futuro. La plataforma líder para el
+              sector agropecuario.
             </p>
             <div className="flex gap-4">
               <Link href="#" className="text-gray-300 hover:text-white">
@@ -41,17 +42,26 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Enlaces Rápidos</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/productos" className="text-gray-300 hover:text-white">
+                <Link
+                  href="/productos"
+                  className="text-gray-300 hover:text-white"
+                >
                   Productos
                 </Link>
               </li>
               <li>
-                <Link href="/capacitaciones" className="text-gray-300 hover:text-white">
+                <Link
+                  href="/capacitaciones"
+                  className="text-gray-300 hover:text-white"
+                >
                   Capacitaciones
                 </Link>
               </li>
               <li>
-                <Link href="/vendedores" className="text-gray-300 hover:text-white">
+                <Link
+                  href="/vendedores"
+                  className="text-gray-300 hover:text-white"
+                >
                   Vendedores
                 </Link>
               </li>
@@ -67,22 +77,34 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Información</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/acerca-de" className="text-gray-300 hover:text-white">
+                <Link
+                  href="/acerca-de"
+                  className="text-gray-300 hover:text-white"
+                >
                   Acerca de
                 </Link>
               </li>
               <li>
-                <Link href="/contacto" className="text-gray-300 hover:text-white">
+                <Link
+                  href="/contacto"
+                  className="text-gray-300 hover:text-white"
+                >
                   Contacto
                 </Link>
               </li>
               <li>
-                <Link href="/preguntas-frecuentes" className="text-gray-300 hover:text-white">
+                <Link
+                  href="/preguntas-frecuentes"
+                  className="text-gray-300 hover:text-white"
+                >
                   Preguntas Frecuentes
                 </Link>
               </li>
               <li>
-                <Link href="/politica-privacidad" className="text-gray-300 hover:text-white">
+                <Link
+                  href="/politica-privacidad"
+                  className="text-gray-300 hover:text-white"
+                >
                   Política de Privacidad
                 </Link>
               </li>
@@ -101,7 +123,10 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} Appical. Todos los derechos reservados.</p>
+          <p>
+            &copy; {new Date().getFullYear()} Appical. Todos los derechos
+            reservados.
+          </p>
           <div className="mt-2 flex justify-center gap-4">
             <Link href="/terminos" className="hover:text-white">
               Términos y Condiciones
@@ -116,6 +141,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
-

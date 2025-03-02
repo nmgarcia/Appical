@@ -68,7 +68,7 @@ export default function ShoppingCart() {
               />
               <div style={{ flex: 1 }}>
                 <Text fw={500}>{item.name}</Text>
-                <Text c="dimmed">Precio: ${item.price.toFixed(2)}</Text>
+                <Text c="dimmed">Precio: ${item.price}</Text>
                 <NumberInput
                   value={item.quantity}
                   onChange={(value) => updateQuantity(item.id, Number(value))}
@@ -94,10 +94,10 @@ export default function ShoppingCart() {
           <Text fw={700} size="lg" mb="md">
             Resumen del Pedido
           </Text>
-          <Text>Subtotal: ${subtotal.toFixed(2)}</Text>
-          <Text>Envío: ${shippingCost.toFixed(2)}</Text>
+          <Text>Subtotal: ${subtotal}</Text>
+          <Text>Envío: ${shippingCost}</Text>
           <Text fw={700} mt="md">
-            Total: ${total.toFixed(2)}
+            Total: ${total}
           </Text>
           <Button
             component={Link}

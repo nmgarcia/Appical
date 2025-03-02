@@ -3,12 +3,15 @@ import { Button, Card, Badge } from "@mantine/core";
 import Image from "next/image";
 import Link from "next/link";
 
+const urlPlaceholder =
+  "https://thefoodtech.com/wp-content/uploads/2020/06/exportación-de-productos-agrícolas.jpg";
+
 const products = [
   {
     id: 1,
     name: "Semillas de Maíz Premium",
     price: 120.0,
-    image: "/placeholder.svg?height=200&width=200",
+    image: urlPlaceholder,
     seller: "AgroSemillas S.A.",
     rating: 4.8,
   },
@@ -16,7 +19,7 @@ const products = [
     id: 2,
     name: "Fertilizante Orgánico 5kg",
     price: 45.5,
-    image: "/placeholder.svg?height=200&width=200",
+    image: urlPlaceholder,
     seller: "EcoAgro",
     rating: 4.5,
   },
@@ -24,7 +27,7 @@ const products = [
     id: 3,
     name: "Kit de Herramientas de Jardín",
     price: 89.99,
-    image: "/placeholder.svg?height=200&width=200",
+    image: urlPlaceholder,
     seller: "HerramientasAgro",
     rating: 4.7,
   },
@@ -32,7 +35,7 @@ const products = [
     id: 4,
     name: "Sistema de Riego por Goteo",
     price: 199.99,
-    image: "/placeholder.svg?height=200&width=200",
+    image: urlPlaceholder,
     seller: "RiegoTech",
     rating: 4.9,
   },
@@ -82,7 +85,7 @@ export default function PopularProducts() {
                   Vendedor: {product.seller}
                 </p>
                 <p className="text-xl font-bold text-green-700 mt-2">
-                  ${product.price.toFixed(2)}
+                  ${product.price}
                 </p>
 
                 <Button

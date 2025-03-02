@@ -130,7 +130,7 @@ export default function UserProfile() {
                 <tr key={purchase.id}>
                   <td>{purchase.date}</td>
                   <td>{purchase.items}</td>
-                  <td>${purchase.total.toFixed(2)}</td>
+                  <td>${purchase.total}</td>
                   <td>
                     <Badge
                       color={purchase.status === "Entregado" ? "green" : "blue"}

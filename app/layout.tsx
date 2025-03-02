@@ -11,7 +11,7 @@ import { AuthProvider } from "@/contexts/auth-context";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Appical - Marketplace del Agro",
+  title: "Appical",
   description: "Conecta con el Agro del Futuro",
 };
 

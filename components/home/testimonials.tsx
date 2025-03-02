@@ -2,13 +2,14 @@
 import { Carousel } from "@mantine/carousel";
 import { Card, Avatar, Text } from "@mantine/core";
 import { Star, Quote } from "lucide-react";
-
+const urlPlaceholder =
+  "https://media.istockphoto.com/id/1026156302/es/foto/agricultores-con-semillas-de-girasol-en-la-mano.jpg?s=612x612&w=0&k=20&c=huel6UeWkT3aJ7gvmiUFNnJdQyK8g2G8pyFFTWYhwF0=";
 const testimonials = [
   {
     id: 1,
     name: "Juan Pérez",
     role: "Agricultor",
-    avatar: "/placeholder.svg?height=60&width=60",
+    avatar: urlPlaceholder,
     content:
       "Appical ha transformado la forma en que compro insumos para mi campo. Los precios son competitivos y la calidad de los productos es excelente.",
     rating: 5,
