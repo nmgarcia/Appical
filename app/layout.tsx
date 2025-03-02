@@ -6,13 +6,13 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import { AuthProvider } from "@/contexts/auth-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Appical - Marketplace del Agro",
   description: "Conecta con el Agro del Futuro",
-  generator: "Appical",
 };
 
 export default function RootLayout({
@@ -24,15 +24,15 @@ export default function RootLayout({
     <html lang="es">
       <body className={inter.className}>
         <MantineProvider>
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
+          <AuthProvider>
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+          </AuthProvider>
         </MantineProvider>
       </body>
     </html>
   );
 }
-
-import "./globals.css";

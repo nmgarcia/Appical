@@ -6,5 +6,6 @@ export interface Product {
   seller: string
   category: string
   condition: string
+  sellerId:string
 }
 
