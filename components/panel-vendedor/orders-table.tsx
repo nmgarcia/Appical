@@ -1,97 +1,112 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Table, Button, Modal, Select, TextInput, NumberInput, MultiSelect, Group } from "@mantine/core"
-import { useForm } from "@mantine/form"
+import { useState, useEffect } from "react";
+import {
+  Table,
+  Button,
+  Modal,
+  Select,
+  TextInput,
+  NumberInput,
+  MultiSelect,
+  Group,
+} from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { type Order } from "@/types/order";
+import { OrderStatus } from "@/types/order";
+import { orderService } from "@/services/orderService";
+import { userService } from "@/services/userService";
+import { productService } from "@/services/productService";
 
-// Datos mockeados
-const initialOrders = [
-  {
-    id: "1",
-    date: "2023-07-01",
-    client: "Restaurante El Sabor",
-    items: ["Semillas de Maíz Premium x2", "Fertilizante Orgánico x1"],
-    total: 250,
-    status: "Pendiente",
-  },
-  {
-    id: "2",
-    date: "2023-07-02",
-    client: "Granja Los Girasoles",
-    items: ["Fertilizante Orgánico x3"],
-    total: 150,
-    status: "En camino",
-  },
-]
+const orderStatuses = Object.values(OrderStatus);
 
 const products = [
   { value: "1", label: "Semillas de Maíz Premium" },
   { value: "2", label: "Fertilizante Orgánico" },
-]
+];
 
 const clients = [
   { value: "1", label: "Restaurante El Sabor" },
   { value: "2", label: "Granja Los Girasoles" },
   { value: "3", label: "Verdulería Frescura" },
-]
-
-const orderStatuses = ["Pendiente", "En preparación", "En camino", "Entregado", "Cancelado"]
+];
 
 export default function OrdersTable() {
-  const [orders, setOrders] = useState(initialOrders)
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false)
-  const [editingOrder, setEditingOrder] = useState<any | null>(null)
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [users, setUsers] = useState<{ value: string; label: string }[]>([]);
+  const [products, setProducts] = useState<{ value: string; label: string }[]>(
+    []
+  );
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
+  const [editingOrder, setEditingOrder] = useState<any | null>(null);
 
-  const form = useForm({
+  const form = useForm<Omit<Order, "id">>({
     initialValues: {
       date: "",
-      client: "",
+      client: { id: "", name: "", email: "", role: { id: "", name: "" } },
       items: [],
       total: 0,
-      status: "Pendiente",
+      status: OrderStatus.PENDING,
     },
-  })
+  });
 
-  const handleCreateOrder = (values: any) => {
-    const newOrder = {
-      id: (orders.length + 1).toString(),
-      ...values,
-      items: values.items.map((id: string) => products.find((p) => p.value === id)?.label),
+  useEffect(() => {
+    loadOrders();
+    loadUsers();
+    loadProducts();
+  }, []);
+
+  const loadOrders = async () => {
+    const data = await orderService.getOrders();
+    setOrders(data);
+  };
+
+  const loadUsers = async () => {
+    const data = await userService.getUsers();
+    setUsers(data.map((user: any) => ({ value: user.id, label: user.name })));
+  };
+
+  const loadProducts = async () => {
+    const data = await productService.getProducts();
+    setProducts(
+      data.map((product) => ({ value: product.id, label: product.name }))
+    );
+  };
+
+  const handleCreateOrder = async (values: Omit<Order, "id">) => {
+    await orderService.createOrder(values);
+    setIsCreateModalOpen(false);
+    loadOrders();
+  };
+
+  const handleEditOrder = (order: Order) => {
+    setEditingOrder(order);
+    form.setValues(order);
+    setIsEditModalOpen(true);
+  };
+
+  const handleSaveEdit = async (values: Omit<Order, "id">) => {
+    if (editingOrder) {
+      await orderService.updateOrder(editingOrder.id, values);
+      setIsEditModalOpen(false);
+      loadOrders();
     }
-    setOrders([...orders, newOrder])
-    setIsCreateModalOpen(false)
-  }
+  };
 
-  const handleEditOrder = (order: any) => {
-    setEditingOrder(order)
-    form.setValues({
-      ...order,
-      items: order.items.map((item: string) => products.find((p) => p.label === item.split(" x")[0])?.value),
-    })
-    setIsEditModalOpen(true)
-  }
+  const handleUpdateStatus = (order: Order) => {
+    setEditingOrder(order);
+    setIsStatusModalOpen(true);
+  };
 
-  const handleSaveEdit = (values: any) => {
-    const updatedOrder = {
-      ...editingOrder,
-      ...values,
-      items: values.items.map((id: string) => products.find((p) => p.value === id)?.label),
+  const handleSaveStatus = async (status: OrderStatus) => {
+    if (editingOrder) {
+      await orderService.updateOrder(editingOrder.id, { status });
+      setIsStatusModalOpen(false);
+      loadOrders();
     }
-    setOrders(orders.map((o) => (o.id === editingOrder.id ? updatedOrder : o)))
-    setIsEditModalOpen(false)
-  }
-
-  const handleUpdateStatus = (order: any) => {
-    setEditingOrder(order)
-    setIsStatusModalOpen(true)
-  }
-
-  const handleSaveStatus = (status: string) => {
-    setOrders(orders.map((o) => (o.id === editingOrder.id ? { ...o, status } : o)))
-    setIsStatusModalOpen(false)
-  }
+  };
 
   return (
     <>
@@ -113,15 +128,24 @@ export default function OrdersTable() {
           {orders.map((order) => (
             <tr key={order.id}>
               <td>{order.date}</td>
-              <td>{order.client}</td>
-              <td>{order.items.join(", ")}</td>
+              <td>{order.client.name}</td>
+              <td>{order.items.map((x) => x.product.name).join(", ")}</td>
               <td>${order.total}</td>
               <td>{order.status}</td>
               <td>
-                <Button onClick={() => handleEditOrder(order)} variant="light" size="xs" mr="xs">
+                <Button
+                  onClick={() => handleEditOrder(order)}
+                  variant="light"
+                  size="xs"
+                  mr="xs"
+                >
                   Editar
                 </Button>
-                <Button onClick={() => handleUpdateStatus(order)} variant="light" size="xs">
+                <Button
+                  onClick={() => handleUpdateStatus(order)}
+                  variant="light"
+                  size="xs"
+                >
                   Actualizar Estado
                 </Button>
               </td>
@@ -130,11 +154,29 @@ export default function OrdersTable() {
         </tbody>
       </Table>
 
-      <Modal opened={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} title="Crear Pedido">
+      <Modal
+        opened={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        title="Crear Pedido"
+      >
         <form onSubmit={form.onSubmit(handleCreateOrder)}>
-          <TextInput label="Fecha" type="date" {...form.getInputProps("date")} />
-          <Select label="Cliente" data={clients} {...form.getInputProps("client")} mt="sm" />
-          <MultiSelect label="Artículos" data={products} {...form.getInputProps("items")} mt="sm" />
+          <TextInput
+            label="Fecha"
+            type="date"
+            {...form.getInputProps("date")}
+          />
+          <Select
+            label="Cliente"
+            data={clients}
+            {...form.getInputProps("client")}
+            mt="sm"
+          />
+          <MultiSelect
+            label="Artículos"
+            data={products}
+            {...form.getInputProps("items")}
+            mt="sm"
+          />
           <NumberInput label="Total" {...form.getInputProps("total")} mt="sm" />
           <Group mt="xl">
             <Button type="submit">Crear</Button>
@@ -145,13 +187,36 @@ export default function OrdersTable() {
         </form>
       </Modal>
 
-      <Modal opened={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Editar Pedido">
+      <Modal
+        opened={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Editar Pedido"
+      >
         <form onSubmit={form.onSubmit(handleSaveEdit)}>
-          <TextInput label="Fecha" type="date" {...form.getInputProps("date")} />
-          <Select label="Cliente" data={clients} {...form.getInputProps("client")} mt="sm" />
-          <MultiSelect label="Artículos" data={products} {...form.getInputProps("items")} mt="sm" />
+          <TextInput
+            label="Fecha"
+            type="date"
+            {...form.getInputProps("date")}
+          />
+          <Select
+            label="Cliente"
+            data={clients}
+            {...form.getInputProps("client")}
+            mt="sm"
+          />
+          <MultiSelect
+            label="Artículos"
+            data={products}
+            {...form.getInputProps("items")}
+            mt="sm"
+          />
           <NumberInput label="Total" {...form.getInputProps("total")} mt="sm" />
-          <Select label="Estado" data={orderStatuses} {...form.getInputProps("status")} mt="sm" />
+          <Select
+            label="Estado"
+            data={orderStatuses}
+            {...form.getInputProps("status")}
+            mt="sm"
+          />
           <Group mt="xl">
             <Button type="submit">Guardar</Button>
             <Button variant="light" onClick={() => setIsEditModalOpen(false)}>
@@ -170,10 +235,9 @@ export default function OrdersTable() {
           label="Nuevo Estado"
           data={orderStatuses}
           value={editingOrder?.status}
-          onChange={(value) => handleSaveStatus(value as string)}
+          onChange={(value: any) => handleSaveStatus(value)}
         />
       </Modal>
     </>
-  )
+  );
 }
-

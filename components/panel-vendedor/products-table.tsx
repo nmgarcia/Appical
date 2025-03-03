@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   Button,
@@ -9,111 +9,99 @@ import {
   Textarea,
   NumberInput,
   Select,
+  MultiSelect,
   Group,
-  Text,
   Card,
+  Text,
   FileInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { Price, Product } from "@/types/product";
-
-// Datos mockeados
-const initialProducts: Product[] = [
-  {
-    id: "1",
-    name: "Semillas de Maíz Premium",
-    description: "Semillas de alta calidad para cultivo de maíz",
-    basePrice: 100,
-    prices: [
-      { role: "restaurante", price: 90 },
-      { role: "campo", price: 85 },
-      { role: "verduleria", price: 95 },
-    ],
-    stock: 1000,
-    category: "Semillas",
-    images: [],
-    seller: "",
-    condition: "",
-    sellerId: "",
-    sellerLocation: "",
-  },
-  {
-    id: "2",
-    name: "Fertilizante Orgánico",
-    description: "Fertilizante 100% orgánico para todo tipo de cultivos",
-    basePrice: 50,
-    prices: [
-      { role: "restaurante", price: 45 },
-      { role: "campo", price: 40 },
-      { role: "verduleria", price: 48 },
-    ],
-    stock: 500,
-    category: "Fertilizantes",
-    images: [],
-    seller: "",
-    condition: "",
-    sellerId: "",
-    sellerLocation: "",
-  },
-];
-
-const categories = ["Semillas", "Fertilizantes", "Herramientas", "Maquinaria"];
-const clientRoles = ["restaurante", "campo", "verduleria"];
+import type { Product } from "@/types/product";
+import { productService } from "@/services/productService";
+import { categoryService } from "@/services/categoryService";
+import { roleService } from "@/services/roleService";
 
 export default function ProductsTable() {
-  const [products, setProducts] = useState(initialProducts);
-  const [editingProduct, setEditingProduct] = useState<any | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [roles, setRoles] = useState<string[]>([]);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [productToDelete, setProductToDelete] = useState<any | null>(null);
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
-  const productForm = useForm({
+  const productForm = useForm<Omit<Product, "id">>({
     initialValues: {
       name: "",
-      description: "",
       basePrice: 0,
       prices: [],
-      stock: 0,
+      images: [],
+      seller: "",
       category: "",
+      condition: "",
+      stock: 0,
+      description: "",
     },
   });
 
-  const handleProductSubmit = (values: typeof productForm.values) => {
-    initialProducts.push({
-      id: String(initialProducts.length + 1),
-      ...values,
-      images: [],
-      seller: "",
-      condition: "",
-      sellerId: "",
-      sellerLocation: "",
-    });
-    setProducts(initialProducts);
+  useEffect(() => {
+    loadProducts();
+    loadCategories();
+    loadRoles();
+  }, []);
+
+  const loadProducts = async () => {
+    const data = await productService.getProducts();
+    setProducts(data);
   };
 
-  const handleEditProduct = (product: any) => {
+  const loadCategories = async () => {
+    const data = await categoryService.getCategories();
+    setCategories(data.map((category) => category.name));
+  };
+
+  const loadRoles = async () => {
+    const data = await roleService.getRoles();
+    setRoles(data.map((role) => role.name));
+  };
+
+  const handleEditProduct = (product: Product) => {
     setEditingProduct(product);
-    productForm.setValues(product);
+    productForm.setValues({
+      ...product,
+    });
     setIsEditModalOpen(true);
   };
 
-  const handleSaveEdit = (values: any) => {
-    setProducts(
-      products.map((p) =>
-        p.id === editingProduct.id ? { ...p, ...values } : p
-      )
-    );
-    setIsEditModalOpen(false);
+  const handleSaveEdit = async (values: Omit<Product, "id">) => {
+    if (editingProduct) {
+      await productService.updateProduct(editingProduct.id, { ...values });
+      setIsEditModalOpen(false);
+      loadProducts();
+    }
   };
 
-  const handleDeleteProduct = (product: any) => {
+  const handleDeleteProduct = (product: Product) => {
     setProductToDelete(product);
     setIsDeleteModalOpen(true);
   };
 
-  const confirmDelete = () => {
-    setProducts(products.filter((p) => p.id !== productToDelete.id));
-    setIsDeleteModalOpen(false);
+  const confirmDelete = async () => {
+    if (productToDelete) {
+      await productService.deleteProduct(productToDelete.id);
+      setIsDeleteModalOpen(false);
+      loadProducts();
+    }
+  };
+
+  const handleProductSubmit = async (values: Omit<Product, "id">) => {
+    try {
+      await productService.createProduct(values);
+      loadProducts();
+      productForm.reset();
+    } catch (error) {
+      console.error("Error al agregar el producto:", error);
+    }
   };
 
   return (
@@ -190,7 +178,7 @@ export default function ProductsTable() {
             {...productForm.getInputProps("category")}
             mt="md"
           />
-          {clientRoles.map((role) => (
+          {roles.map((role) => (
             <NumberInput
               key={role}
               label={`Precio para ${role}`}
@@ -248,7 +236,7 @@ export default function ProductsTable() {
             {...productForm.getInputProps("category")}
             mt="sm"
           />
-          {clientRoles.map((role) => (
+          {roles.map((role) => (
             <NumberInput
               key={role}
               label={`Precio para ${role}`}
