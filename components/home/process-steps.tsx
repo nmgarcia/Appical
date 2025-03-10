@@ -45,7 +45,7 @@ export default function ProcessSteps() {
           <Timeline active={4} bulletSize={40} lineWidth={2}>
             {steps.map((step) => (
               <Timeline.Item
-                key={step.id}
+                key={step._id}
                 bullet={step.icon}
                 title={<Text fw={700}>{step.title}</Text>}
                 color="green"

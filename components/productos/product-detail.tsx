@@ -156,7 +156,7 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
           Reseñas
         </Text>
         {product.reviews!.map((review) => (
-          <Card key={review.id} withBorder mb="md">
+          <Card key={review._id} withBorder mb="md">
             <Text fw={500}>{review.user}</Text>
             <Rating value={review.rating} readOnly />
             <Text size="sm">{review.comment}</Text>

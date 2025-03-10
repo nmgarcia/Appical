@@ -4,7 +4,7 @@ import type { Product } from "@/types/product"
 export const productService = {
   getProducts: async (filters?: any): Promise<Product[]> => {
     const response = await api.get("/products", { params: filters })
-    return response.data
+    return response.data.products
   },
 
   getProductById: async (id: string): Promise<Product> => {
@@ -12,7 +12,7 @@ export const productService = {
     return response.data
   },
 
-  createProduct: async (productData: Omit<Product, "id">): Promise<Product> => {
+  createProduct: async (productData: Omit<Product, "_id">): Promise<Product> => {
     const response = await api.post("/products", productData)
     return response.data
   },

@@ -45,11 +45,11 @@ type Action =
     }
   | {
       type: ActionType["DISMISS_TOAST"]
-      toastId?: ToasterToast["id"]
+      toastId?: ToasterToast["_id"]
     }
   | {
       type: ActionType["REMOVE_TOAST"]
-      toastId?: ToasterToast["id"]
+      toastId?: ToasterToast["_id"]
     }
 
 interface State {
@@ -140,7 +140,7 @@ function dispatch(action: Action) {
   })
 }
 
-type Toast = Omit<ToasterToast, "id">
+type Toast = Omit<ToasterToast, "_id">
 
 function toast({ ...props }: Toast) {
   const id = genId()

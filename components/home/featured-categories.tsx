@@ -96,9 +96,9 @@ export default function FeaturedCategories() {
             loop
           >
             {categories.map((category) => (
-              <Carousel.Slide key={category.id}>
+              <Carousel.Slide key={category._id}>
                 <Link
-                  href={`/productos?categoria=${category.id}`}
+                  href={`/productos?categoria=${category._id}`}
                   className="block"
                 >
                   <div className="aspect-square flex flex-col items-center justify-center p-6 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all hover:border-green-300">

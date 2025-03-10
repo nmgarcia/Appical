@@ -2,7 +2,7 @@ import type { Product } from "./product"
 import type { User } from "./user"
 
 export interface Order {
-  id: string
+  _id: string
   date: string
   client: User
   items: OrderItem[]

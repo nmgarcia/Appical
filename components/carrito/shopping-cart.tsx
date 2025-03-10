@@ -38,13 +38,13 @@ export default function ShoppingCart() {
   const updateQuantity = (id: string, quantity: number) => {
     setCartItems(
       cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
+        item._id === id ? { ...item, quantity: Math.max(1, quantity) } : item
       )
     );
   };
 
   const removeItem = (id: string) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
+    setCartItems(cartItems.filter((item) => item._id !== id));
   };
 
   const subtotal = cartItems.reduce(
@@ -58,7 +58,7 @@ export default function ShoppingCart() {
     <Grid gutter="xl">
       <Grid.Col span={{ base: 12, md: 8 }}>
         {cartItems.map((item) => (
-          <Card key={item.id} withBorder mb="md">
+          <Card key={item._id} withBorder mb="md">
             <Group>
               <Image
                 src={item.image || "/placeholder.svg"}
@@ -71,7 +71,7 @@ export default function ShoppingCart() {
                 <Text c="dimmed">Precio: ${item.price}</Text>
                 <NumberInput
                   value={item.quantity}
-                  onChange={(value) => updateQuantity(item.id, Number(value))}
+                  onChange={(value) => updateQuantity(item._id, Number(value))}
                   min={1}
                   max={99}
                   style={{ width: 100 }}
@@ -80,7 +80,7 @@ export default function ShoppingCart() {
               <Button
                 variant="subtle"
                 color="red"
-                onClick={() => removeItem(item.id)}
+                onClick={() => removeItem(item._id)}
               >
                 <Trash2 size={20} />
               </Button>

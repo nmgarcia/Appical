@@ -12,7 +12,7 @@ export const categoryService = {
     return response.data
   },
 
-  createCategory: async (categoryData: Omit<Category, "id">): Promise<Category> => {
+  createCategory: async (categoryData: Omit<Category, "_id">): Promise<Category> => {
     const response = await api.post("/categories", categoryData)
     return response.data
   },

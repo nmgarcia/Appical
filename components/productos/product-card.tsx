@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <Button
         component={Link}
-        href={`/productos/${product.id}`}
+        href={`/productos/${product._id}`}
         color="green"
         fullWidth
         mt="md"

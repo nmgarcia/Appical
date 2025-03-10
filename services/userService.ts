@@ -3,7 +3,7 @@ import api from "./api"
 export const userService = {
   getUsers: async (filters?: any) => {
     const response = await api.get("/users", { params: filters })
-    return response.data
+    return response.data.users
   },
 
   getUserById: async (id: string) => {

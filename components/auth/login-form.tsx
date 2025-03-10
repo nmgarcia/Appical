@@ -16,7 +16,7 @@ export default function LoginForm() {
       password: "",
     },
     validate: {
-      //email: (value) => (/^\S+@\S+$/.test(value) ? null : "Email inválido"),
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Email inválido"),
       password: (value) =>
         value.length > 0 ? null : "La contraseña es requerida",
     },
@@ -63,7 +63,10 @@ export default function LoginForm() {
       </form>
       <Text mt="md" ta="center">
         ¿No tienes una cuenta?{" "}
-        <Link href="/registro" className="text-blue-500 hover:underline">
+        <Link
+          href="/registro-cliente"
+          className="text-blue-500 hover:underline"
+        >
           Regístrate
         </Link>
       </Text>

@@ -1,103 +1,208 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Table, Button, TextInput, Group, Modal } from "@mantine/core"
-import { useForm } from "@mantine/form"
-
-// Datos mockeados de categorías
-const initialCategories = [
-  { id: "1", name: "Semillas" },
-  { id: "2", name: "Fertilizantes" },
-  { id: "3", name: "Herramientas" },
-]
+import { useState, useEffect } from "react";
+import { Table, Button, TextInput, Group, Modal, Text } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { categoryService } from "@/services/categoryService";
+import type { Category } from "@/types/category";
 
 export default function CategoryManagement() {
-  const [categories, setCategories] = useState(initialCategories)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [editingCategory, setEditingCategory] = useState<any | null>(null)
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const form = useForm({
+  const form = useForm<Omit<Category, "_id">>({
     initialValues: {
       name: "",
+      description: "",
     },
-  })
+    validate: {
+      name: (value) =>
+        value.length < 2 ? "El nombre debe tener al menos 2 caracteres" : null,
+    },
+  });
 
-  const handleCreateCategory = (values: any) => {
-    const newCategory = {
-      id: (categories.length + 1).toString(),
-      name: values.name,
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const data = await categoryService.getCategories();
+      setCategories(data);
+    } catch (err) {
+      console.error("Error al cargar categorías:", err);
+      setError(
+        "No se pudieron cargar las categorías. Por favor, intenta de nuevo."
+      );
+    } finally {
+      setIsLoading(false);
     }
-    setCategories([...categories, newCategory])
-    setIsModalOpen(false)
-    form.reset()
-  }
+  };
 
-  const handleEditCategory = (category: any) => {
-    setEditingCategory(category)
-    form.setValues(category)
-    setIsModalOpen(true)
-  }
+  const handleCreateCategory = async (values: typeof form.values) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await categoryService.createCategory(values);
+      setIsModalOpen(false);
+      form.reset();
+      await loadCategories();
+    } catch (err) {
+      console.error("Error al crear categoría:", err);
+      setError("No se pudo crear la categoría. Por favor, intenta de nuevo.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const handleSaveEdit = (values: any) => {
-    setCategories(categories.map((c) => (c.id === editingCategory.id ? { ...c, ...values } : c)))
-    setIsModalOpen(false)
-    setEditingCategory(null)
-    form.reset()
-  }
+  const handleEditCategory = (category: Category) => {
+    setEditingCategory(category);
+    form.setValues({
+      name: category.name,
+      description: category.description || "",
+    });
+    setIsModalOpen(true);
+  };
 
-  const handleDeleteCategory = (id: string) => {
-    setCategories(categories.filter((c) => c.id !== id))
-  }
+  const handleSaveEdit = async (values: typeof form.values) => {
+    if (!editingCategory) return;
+
+    setIsLoading(true);
+    setError(null);
+    try {
+      await categoryService.updateCategory(editingCategory._id, values);
+      setIsModalOpen(false);
+      setEditingCategory(null);
+      form.reset();
+      await loadCategories();
+    } catch (err) {
+      console.error("Error al actualizar categoría:", err);
+      setError(
+        "No se pudo actualizar la categoría. Por favor, intenta de nuevo."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await categoryService.deleteCategory(id);
+      await loadCategories();
+    } catch (err) {
+      console.error("Error al eliminar categoría:", err);
+      setError(
+        "No se pudo eliminar la categoría. Por favor, intenta de nuevo."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} mb="md">
+      <Button onClick={() => setIsModalOpen(true)} mb="md" loading={isLoading}>
         Crear Categoría
       </Button>
+
+      {error && (
+        <Text color="red" mb="md">
+          {error}
+        </Text>
+      )}
+
       <Table>
         <thead>
           <tr>
             <th>Nombre</th>
+            <th>Descripción</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {categories.map((category) => (
-            <tr key={category.id}>
+            <tr key={category._id}>
               <td>{category.name}</td>
+              <td>{category.description || "-"}</td>
               <td>
-                <Button onClick={() => handleEditCategory(category)} variant="light" size="xs" mr="xs">
+                <Button
+                  onClick={() => handleEditCategory(category)}
+                  variant="light"
+                  size="xs"
+                  mr="xs"
+                >
                   Editar
                 </Button>
-                <Button onClick={() => handleDeleteCategory(category.id)} variant="light" color="red" size="xs">
+                <Button
+                  onClick={() => handleDeleteCategory(category._id)}
+                  variant="light"
+                  color="red"
+                  size="xs"
+                >
                   Eliminar
                 </Button>
               </td>
             </tr>
           ))}
+          {categories.length === 0 && !isLoading && (
+            <tr>
+              <td colSpan={3} style={{ textAlign: "center" }}>
+                No hay categorías disponibles
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
 
       <Modal
         opened={isModalOpen}
         onClose={() => {
-          setIsModalOpen(false)
-          setEditingCategory(null)
-          form.reset()
+          setIsModalOpen(false);
+          setEditingCategory(null);
+          form.reset();
         }}
         title={editingCategory ? "Editar Categoría" : "Crear Categoría"}
       >
-        <form onSubmit={form.onSubmit(editingCategory ? handleSaveEdit : handleCreateCategory)}>
-          <TextInput label="Nombre de la categoría" {...form.getInputProps("name")} />
+        <form
+          onSubmit={form.onSubmit(
+            editingCategory ? handleSaveEdit : handleCreateCategory
+          )}
+        >
+          <TextInput
+            label="Nombre de la categoría"
+            {...form.getInputProps("name")}
+            required
+          />
+          <TextInput
+            label="Descripción"
+            placeholder="Descripción opcional"
+            {...form.getInputProps("description")}
+            mt="md"
+          />
+          {error && (
+            <Text color="red" size="sm" mt="sm">
+              {error}
+            </Text>
+          )}
           <Group mt="xl">
-            <Button type="submit">{editingCategory ? "Guardar" : "Crear"}</Button>
+            <Button type="submit" loading={isLoading}>
+              {editingCategory ? "Guardar" : "Crear"}
+            </Button>
             <Button
               variant="light"
               onClick={() => {
-                setIsModalOpen(false)
-                setEditingCategory(null)
-                form.reset()
+                setIsModalOpen(false);
+                setEditingCategory(null);
+                form.reset();
               }}
+              disabled={isLoading}
             >
               Cancelar
             </Button>
@@ -105,6 +210,5 @@ export default function CategoryManagement() {
         </form>
       </Modal>
     </>
-  )
+  );
 }
-

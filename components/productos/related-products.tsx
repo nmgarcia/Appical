@@ -1,5 +1,5 @@
-import { Grid } from "@mantine/core"
-import ProductCard from "./product-card"
+import { Grid } from "@mantine/core";
+import ProductCard from "./product-card";
 
 // Simulated related products data
 const relatedProducts = [
@@ -30,24 +30,25 @@ const relatedProducts = [
     category: "Sistemas de Riego",
     condition: "Nuevo",
   },
-]
+];
 
 interface RelatedProductsProps {
-  category: string
+  category: string;
 }
 
 export default function RelatedProducts({ category }: RelatedProductsProps) {
   // Filter products by category if needed
-  const filteredProducts = relatedProducts.filter((p) => p.category === category)
+  const filteredProducts = relatedProducts.filter(
+    (p) => p.category === category
+  );
 
   return (
     <Grid>
       {filteredProducts.map((product) => (
-        <Grid.Col key={product.id} span={{ base: 12, sm: 6, md: 4 }}>
+        <Grid.Col key={product._id} span={{ base: 12, sm: 6, md: 4 }}>
           <ProductCard product={product} />
         </Grid.Col>
       ))}
     </Grid>
-  )
+  );
 }
-

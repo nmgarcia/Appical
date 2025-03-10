@@ -3,39 +3,23 @@
 import type React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: "cliente" | "vendedor";
-};
+import type { User } from "@/types/user";
+import { authService } from "@/services/authService";
 
 type AuthContextType = {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (
+    userData: Omit<User, "_id" | "role"> & { password: string }
+  ) => Promise<void>;
+  registerVendor: (
+    userData: Omit<User, "_id" | "role"> & { password: string }
+  ) => Promise<void>;
   isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const mockUsers = [
-  {
-    id: "1",
-    name: "Vendedor",
-    email: "vend",
-    password: "1234",
-    role: "vendedor" as const,
-  },
-  {
-    id: "2",
-    name: "Cliente",
-    email: "cliente",
-    password: "1234",
-    role: "cliente" as const,
-  },
-];
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -45,41 +29,80 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter();
 
   useEffect(() => {
-    // Verificar si hay un usuario en el localStorage al cargar la página
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
+    const initAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const currentUser = await authService.getCurrentUser();
+          setUser(currentUser);
+        } catch (error) {
+          console.error("Error al obtener el usuario actual:", error);
+          localStorage.removeItem("token");
+        }
+      }
+      setIsLoading(false);
+    };
+
+    initAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    // Simular una llamada a la API
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const foundUser = mockUsers.find(
-      (u) => u.email === email && u.password === password
-    );
-    if (foundUser) {
-      const { password, ...userWithoutPassword } = foundUser;
-      setUser(userWithoutPassword);
-      localStorage.setItem("user", JSON.stringify(userWithoutPassword));
+    try {
+      const { token, user } = await authService.login(email, password);
+      localStorage.setItem("token", token);
+      setUser(user);
       router.push("/");
-    } else {
-      throw new Error("Credenciales inválidas");
+    } catch (error) {
+      console.error("Error de inicio de sesión:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const logout = () => {
+    authService.logout();
     setUser(null);
-    localStorage.removeItem("user");
     router.push("/");
   };
 
+  const register = async (
+    userData: Omit<User, "_id" | "role"> & { password: string }
+  ) => {
+    setIsLoading(true);
+    try {
+      const { token, user } = await authService.register(userData);
+      localStorage.setItem("token", token);
+      setUser(user);
+    } catch (error) {
+      console.error("Error de registro:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const registerVendor = async (
+    userData: Omit<User, "_id" | "role"> & { password: string }
+  ) => {
+    setIsLoading(true);
+    try {
+      const { token, user } = await authService.registerVendor(userData);
+      localStorage.setItem("token", token);
+      setUser(user);
+    } catch (error) {
+      console.error("Error de registro de vendedor:", error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, register, registerVendor, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

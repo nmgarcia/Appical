@@ -60,7 +60,7 @@ export default function Testimonials() {
           loop
         >
           {testimonials.map((testimonial) => (
-            <Carousel.Slide key={testimonial.id}>
+            <Carousel.Slide key={testimonial._id}>
               <Card
                 shadow="sm"
                 padding="xl"

@@ -4,7 +4,7 @@ import type { Order } from "@/types/order"
 export const orderService = {
   getOrders: async (filters?: any): Promise<Order[]> => {
     const response = await api.get("/orders", { params: filters })
-    return response.data
+    return response.data.orders;
   },
 
   getOrderById: async (id: string): Promise<Order> => {
@@ -12,7 +12,7 @@ export const orderService = {
     return response.data
   },
 
-  createOrder: async (orderData: Omit<Order, "id">): Promise<Order> => {
+  createOrder: async (orderData: Omit<Order, "_id">): Promise<Order> => {
     const response = await api.post("/orders", orderData)
     return response.data
   },

@@ -20,24 +20,26 @@ import type { Product } from "@/types/product";
 import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
 import { roleService } from "@/services/roleService";
+import { Category } from "@/types/category";
+import { Role } from "@/types/role";
 
 export default function ProductsTable() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [roles, setRoles] = useState<string[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
 
-  const productForm = useForm<Omit<Product, "id">>({
+  const productForm = useForm<Omit<Product, "_id">>({
     initialValues: {
       name: "",
       basePrice: 0,
       prices: [],
       images: [],
       seller: "",
-      category: "",
+      category: { _id: "", name: "", description: "" },
       condition: "",
       stock: 0,
       description: "",
@@ -52,17 +54,18 @@ export default function ProductsTable() {
 
   const loadProducts = async () => {
     const data = await productService.getProducts();
+    debugger;
     setProducts(data);
   };
 
   const loadCategories = async () => {
     const data = await categoryService.getCategories();
-    setCategories(data.map((category) => category.name));
+    setCategories(data);
   };
 
   const loadRoles = async () => {
     const data = await roleService.getRoles();
-    setRoles(data.map((role) => role.name));
+    setRoles(data);
   };
 
   const handleEditProduct = (product: Product) => {
@@ -73,9 +76,9 @@ export default function ProductsTable() {
     setIsEditModalOpen(true);
   };
 
-  const handleSaveEdit = async (values: Omit<Product, "id">) => {
+  const handleSaveEdit = async (values: Omit<Product, "_id">) => {
     if (editingProduct) {
-      await productService.updateProduct(editingProduct.id, { ...values });
+      await productService.updateProduct(editingProduct._id, { ...values });
       setIsEditModalOpen(false);
       loadProducts();
     }
@@ -88,13 +91,13 @@ export default function ProductsTable() {
 
   const confirmDelete = async () => {
     if (productToDelete) {
-      await productService.deleteProduct(productToDelete.id);
+      await productService.deleteProduct(productToDelete._id);
       setIsDeleteModalOpen(false);
       loadProducts();
     }
   };
 
-  const handleProductSubmit = async (values: Omit<Product, "id">) => {
+  const handleProductSubmit = async (values: Omit<Product, "_id">) => {
     try {
       await productService.createProduct(values);
       loadProducts();
@@ -118,11 +121,11 @@ export default function ProductsTable() {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.id}>
+            <tr key={product._id}>
               <td>{product.name}</td>
               <td>${product.basePrice}</td>
               <td>{product.stock}</td>
-              <td>{product.category}</td>
+              <td>{product.category.name}</td>
               <td>
                 <Button
                   onClick={() => handleEditProduct(product)}
@@ -174,13 +177,13 @@ export default function ProductsTable() {
             label="Categoría"
             placeholder="Selecciona una categoría"
             required
-            data={categories}
+            data={categories.map((c) => c.name)}
             {...productForm.getInputProps("category")}
             mt="md"
           />
           {roles.map((role) => (
             <NumberInput
-              key={role}
+              key={role.name}
               label={`Precio para ${role}`}
               {...productForm.getInputProps(`prices.${role}`)}
               mt="sm"
@@ -232,13 +235,13 @@ export default function ProductsTable() {
           />
           <Select
             label="Categoría"
-            data={categories}
+            data={categories.map((c) => c.name)}
             {...productForm.getInputProps("category")}
             mt="sm"
           />
           {roles.map((role) => (
             <NumberInput
-              key={role}
+              key={role.name}
               label={`Precio para ${role}`}
               {...productForm.getInputProps(`prices.${role}`)}
               mt="sm"

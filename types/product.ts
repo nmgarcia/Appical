@@ -1,12 +1,14 @@
+import { Category } from "./category"
+
 export interface Product {
-  id: string
+  _id: string
   name: string
   basePrice: number
   prices?: Price[]
   images: string[]
   seller: string
   sellerLocation?: string
-  category: string
+  category: Category
   condition: string
   sellerId?:string
   stock?: number 

@@ -12,7 +12,7 @@ export const roleService = {
     return response.data
   },
 
-  createRole: async (roleData: Omit<Role, "id">): Promise<Role> => {
+  createRole: async (roleData: Omit<Role, "_id">): Promise<Role> => {
     const response = await api.post("/roles", roleData)
     return response.data
   },

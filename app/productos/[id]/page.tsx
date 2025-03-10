@@ -13,7 +13,7 @@ export async function generateStaticParams() {
 
   // Supongamos que la respuesta tiene un array de vendedores, con la propiedad `id`
   //return vendors.map((vendor) => ({
-  //id: vendor.id,
+  //id: vendor._id,
   //}));
   return [{ id: "1" }];
 }
@@ -24,7 +24,7 @@ export default function ProductDetailPage({
 }) {
   return (
     <div className="container mx-auto px-4 py-8">
-      <ProductDetail productId={params.id} />
+      <ProductDetail productId={params._id} />
     </div>
   );
 }

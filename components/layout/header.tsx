@@ -46,7 +46,7 @@ export default function Header() {
             >
               Vendedores
             </Link>
-            {user && user.role === "vendedor" && (
+            {user && user.role.name === "vendedor" && (
               <Link
                 href="/panel-vendedor"
                 className="text-gray-700 hover:text-green-600"
@@ -68,7 +68,7 @@ export default function Header() {
                   <Menu.Item component={Link} href="/perfil">
                     Perfil
                   </Menu.Item>
-                  {user.role === "cliente" && (
+                  {user.role.name === "cliente" && (
                     <Menu.Item component={Link} href="/registro-vendedor">
                       Registrarse como vendedor
                     </Menu.Item>
@@ -86,7 +86,7 @@ export default function Header() {
                 >
                   Iniciar Sesión
                 </Button>
-                <Button component={Link} href="/registro" color="green">
+                <Button component={Link} href="/registro-cliente" color="green">
                   Registrarse
                 </Button>
               </>
@@ -125,7 +125,7 @@ export default function Header() {
             >
               Vendedores
             </Link>
-            {user && user.role === "vendedor" && (
+            {user && user.role.name === "vendedor" && (
               <Link
                 href="/panel-vendedor"
                 className="text-gray-700 hover:text-green-600"
@@ -145,7 +145,7 @@ export default function Header() {
                 >
                   Perfil de {user.name}
                 </Button>
-                {user.role === "cliente" && (
+                {user.role.name === "cliente" && (
                   <Button
                     component={Link}
                     href="/registro-vendedor"
@@ -172,7 +172,7 @@ export default function Header() {
                 </Button>
                 <Button
                   component={Link}
-                  href="/registro"
+                  href="/registro-cliente"
                   color="green"
                   fullWidth
                 >

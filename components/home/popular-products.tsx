@@ -60,7 +60,7 @@ export default function PopularProducts() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <Card
-              key={product.id}
+              key={product._id}
               shadow="sm"
               padding="lg"
               radius="md"
@@ -90,7 +90,7 @@ export default function PopularProducts() {
 
                 <Button
                   component={Link}
-                  href={`/productos/${product.id}`}
+                  href={`/productos/${product._id}`}
                   color="green"
                   fullWidth
                   mt="md"

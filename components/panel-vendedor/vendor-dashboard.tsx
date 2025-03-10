@@ -18,7 +18,7 @@ export default function VendorDashboard() {
         <Tabs.Tab value="dashboard">Dashboard</Tabs.Tab>
         <Tabs.Tab value="products">Mis Productos</Tabs.Tab>
         <Tabs.Tab value="orders">Pedidos</Tabs.Tab>
-        <Tabs.Tab value="routes">Optimización de Rutas</Tabs.Tab>
+        {/* <Tabs.Tab value="routes">Optimización de Rutas</Tabs.Tab> */}
         <Tabs.Tab value="categories">Categorías</Tabs.Tab>
         <Tabs.Tab value="roles">Roles de Cliente</Tabs.Tab>
       </Tabs.List>
@@ -39,10 +39,10 @@ export default function VendorDashboard() {
       <Tabs.Panel value="orders">
         <OrdersTable />
       </Tabs.Panel>
-
+      {/* 
       <Tabs.Panel value="routes">
         <RouteOptimization />
-      </Tabs.Panel>
+      </Tabs.Panel> */}
 
       <Tabs.Panel value="categories">
         <CategoryManagement />

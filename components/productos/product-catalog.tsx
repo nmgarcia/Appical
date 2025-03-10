@@ -94,7 +94,7 @@ export default function ProductCatalog({ vendorId }: ProductCatalogProps) {
         />
         <Grid className="mt-8">
           {currentProducts.map((product) => (
-            <Grid.Col key={product.id} span={{ base: 12, sm: 6, md: 4 }}>
+            <Grid.Col key={product._id} span={{ base: 12, sm: 6, md: 4 }}>
               <ProductCard product={product} />
             </Grid.Col>
           ))}

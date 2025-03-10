@@ -42,10 +42,10 @@ export default function OrdersTable() {
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [editingOrder, setEditingOrder] = useState<any | null>(null);
 
-  const form = useForm<Omit<Order, "id">>({
+  const form = useForm<Omit<Order, "_id">>({
     initialValues: {
       date: "",
-      client: { id: "", name: "", email: "", role: { id: "", name: "" } },
+      client: { _id: "", name: "", email: "", role: { _id: "", name: "" } },
       items: [],
       total: 0,
       status: OrderStatus.PENDING,
@@ -65,17 +65,17 @@ export default function OrdersTable() {
 
   const loadUsers = async () => {
     const data = await userService.getUsers();
-    setUsers(data.map((user: any) => ({ value: user.id, label: user.name })));
+    setUsers(data.map((user: any) => ({ value: user._id, label: user.name })));
   };
 
   const loadProducts = async () => {
     const data = await productService.getProducts();
     setProducts(
-      data.map((product) => ({ value: product.id, label: product.name }))
+      data.map((product) => ({ value: product._id, label: product.name }))
     );
   };
 
-  const handleCreateOrder = async (values: Omit<Order, "id">) => {
+  const handleCreateOrder = async (values: Omit<Order, "_id">) => {
     await orderService.createOrder(values);
     setIsCreateModalOpen(false);
     loadOrders();
@@ -87,9 +87,9 @@ export default function OrdersTable() {
     setIsEditModalOpen(true);
   };
 
-  const handleSaveEdit = async (values: Omit<Order, "id">) => {
+  const handleSaveEdit = async (values: Omit<Order, "_id">) => {
     if (editingOrder) {
-      await orderService.updateOrder(editingOrder.id, values);
+      await orderService.updateOrder(editingOrder._id, values);
       setIsEditModalOpen(false);
       loadOrders();
     }
@@ -102,7 +102,7 @@ export default function OrdersTable() {
 
   const handleSaveStatus = async (status: OrderStatus) => {
     if (editingOrder) {
-      await orderService.updateOrder(editingOrder.id, { status });
+      await orderService.updateOrder(editingOrder._id, { status });
       setIsStatusModalOpen(false);
       loadOrders();
     }
@@ -126,7 +126,7 @@ export default function OrdersTable() {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id}>
+            <tr key={order._id}>
               <td>{order.date}</td>
               <td>{order.client.name}</td>
               <td>{order.items.map((x) => x.product.name).join(", ")}</td>

@@ -127,7 +127,7 @@ export default function UserProfile() {
             </thead>
             <tbody>
               {purchaseHistory.map((purchase) => (
-                <tr key={purchase.id}>
+                <tr key={purchase._id}>
                   <td>{purchase.date}</td>
                   <td>{purchase.items}</td>
                   <td>${purchase.total}</td>
@@ -157,7 +157,7 @@ export default function UserProfile() {
             </thead>
             <tbody>
               {enrolledCourses.map((course) => (
-                <tr key={course.id}>
+                <tr key={course._id}>
                   <td>{course.name}</td>
                   <td>{course.progress}</td>
                   <td>
