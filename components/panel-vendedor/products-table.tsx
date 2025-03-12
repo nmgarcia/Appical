@@ -9,17 +9,15 @@ import {
   Textarea,
   NumberInput,
   Select,
-  MultiSelect,
   Group,
-  Card,
   Text,
-  FileInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import type { Product } from "@/types/product";
 import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
 import { roleService } from "@/services/roleService";
+import { useAuth } from "@/contexts/auth-context";
 import { Category } from "@/types/category";
 import { Role } from "@/types/role";
 
@@ -31,14 +29,19 @@ export default function ProductsTable() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const productForm = useForm<Omit<Product, "_id">>({
+  // Obtener el usuario actual del contexto de autenticación
+  const { user } = useAuth();
+
+  const form = useForm<Omit<Product, "_id">>({
     initialValues: {
       name: "",
       basePrice: 0,
       prices: [],
       images: [],
-      seller: "",
+      sellerId: "",
       category: { _id: "", name: "", description: "" },
       condition: "",
       stock: 0,
@@ -53,34 +56,94 @@ export default function ProductsTable() {
   }, []);
 
   const loadProducts = async () => {
-    const data = await productService.getProducts();
-    debugger;
-    setProducts(data);
+    setLoading(true);
+    setError(null);
+    try {
+      // Cargar solo los productos del vendedor actual
+      const data = await productService.getProducts({ sellerId: user?._id });
+      setProducts(data);
+    } catch (err) {
+      console.error("Error al cargar productos:", err);
+      setError(
+        "No se pudieron cargar los productos. Por favor, intenta de nuevo."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const loadCategories = async () => {
-    const data = await categoryService.getCategories();
-    setCategories(data);
+    try {
+      const data = await categoryService.getCategories();
+      setCategories(data);
+    } catch (err) {
+      console.error("Error al cargar categorías:", err);
+    }
   };
 
   const loadRoles = async () => {
-    const data = await roleService.getRoles();
-    setRoles(data);
+    try {
+      const data = await roleService.getRoles();
+      setRoles(data);
+    } catch (err) {
+      console.error("Error al cargar roles:", err);
+    }
+  };
+
+  const handleCreateProduct = () => {
+    // Inicializar el formulario con el ID del vendedor actual
+    form.setValues({
+      name: "",
+      basePrice: 0,
+      prices: [],
+      images: [],
+      seller: user?.name || "", // Nombre del vendedor actual
+      category: { _id: "", name: "", description: "" },
+      condition: "Nuevo",
+      stock: 0,
+      description: "",
+      sellerId: user?.id || "", // ID del vendedor actual
+    });
+    setEditingProduct(null);
+    setIsEditModalOpen(true);
   };
 
   const handleEditProduct = (product: Product) => {
     setEditingProduct(product);
-    productForm.setValues({
+    form.setValues({
       ...product,
+      // Asegurarse de que el sellerId esté presente
+      sellerId: product.sellerId || user?._id || "",
+      // Convertir los precios al formato esperado por el formulario
+      prices: product.prices || [],
     });
     setIsEditModalOpen(true);
   };
 
   const handleSaveEdit = async (values: Omit<Product, "_id">) => {
-    if (editingProduct) {
-      await productService.updateProduct(editingProduct._id, { ...values });
+    setLoading(true);
+    setError(null);
+    try {
+      // Asegurarse de que el ID del vendedor esté incluido
+      const productData = {
+        ...values,
+        sellerId: user?.id || "",
+        seller: user?.name || values.seller,
+      };
+
+      if (editingProduct) {
+        await productService.updateProduct(editingProduct._id, productData);
+      } else {
+        await productService.createProduct(productData);
+      }
+
       setIsEditModalOpen(false);
       loadProducts();
+    } catch (err) {
+      console.error("Error al guardar producto:", err);
+      setError("No se pudo guardar el producto. Por favor, intenta de nuevo.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,25 +153,34 @@ export default function ProductsTable() {
   };
 
   const confirmDelete = async () => {
-    if (productToDelete) {
+    if (!productToDelete) return;
+
+    setLoading(true);
+    setError(null);
+    try {
       await productService.deleteProduct(productToDelete._id);
       setIsDeleteModalOpen(false);
       loadProducts();
-    }
-  };
-
-  const handleProductSubmit = async (values: Omit<Product, "_id">) => {
-    try {
-      await productService.createProduct(values);
-      loadProducts();
-      productForm.reset();
-    } catch (error) {
-      console.error("Error al agregar el producto:", error);
+    } catch (err) {
+      console.error("Error al eliminar producto:", err);
+      setError("No se pudo eliminar el producto. Por favor, intenta de nuevo.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
+      <Button onClick={handleCreateProduct} mb="md" loading={loading}>
+        Crear Producto
+      </Button>
+
+      {error && (
+        <Text color="red" mb="md">
+          {error}
+        </Text>
+      )}
+
       <Table>
         <thead>
           <tr>
@@ -146,110 +218,96 @@ export default function ProductsTable() {
               </td>
             </tr>
           ))}
+          {products.length === 0 && !loading && (
+            <tr>
+              <td colSpan={5} style={{ textAlign: "center" }}>
+                No hay productos disponibles
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
-      <Card withBorder mt="xl">
-        <Text size="xl" fw={700} mb="md">
-          Agregar Nuevo Producto
-        </Text>
-        <form onSubmit={productForm.onSubmit(handleProductSubmit)}>
-          <TextInput
-            label="Nombre del Producto"
-            placeholder="Ej: Semillas de Maíz Premium"
-            required
-            {...productForm.getInputProps("name")}
-          />
+
+      <Modal
+        opened={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title={editingProduct ? "Editar Producto" : "Crear Producto"}
+        size="lg"
+      >
+        <form onSubmit={form.onSubmit(handleSaveEdit)}>
+          <TextInput label="Nombre" {...form.getInputProps("name")} required />
           <Textarea
             label="Descripción"
-            placeholder="Describe tu producto..."
-            required
-            mt="md"
-            {...productForm.getInputProps("description")}
+            {...form.getInputProps("description")}
+            mt="sm"
           />
           <NumberInput
             label="Precio Base"
-            placeholder="0"
+            {...form.getInputProps("basePrice")}
+            mt="sm"
             required
-            mt="md"
-            {...productForm.getInputProps("basePrice")}
+            min={0}
+          />
+          <NumberInput
+            label="Stock"
+            {...form.getInputProps("stock")}
+            mt="sm"
+            required
+            min={0}
           />
           <Select
             label="Categoría"
             placeholder="Selecciona una categoría"
             required
-            data={categories.map((c) => c.name)}
-            {...productForm.getInputProps("category")}
+            data={categories.map((c) => ({ value: c._id, label: c.name }))}
+            {...form.getInputProps("category")}
             mt="md"
           />
+
+          <Text fw={700} mt="lg">
+            Precios por Rol de Cliente
+          </Text>
+          <Text size="sm" c="dimmed" mb="sm">
+            Define precios especiales para diferentes tipos de clientes
+          </Text>
+
           {roles.map((role) => (
             <NumberInput
-              key={role.name}
-              label={`Precio para ${role}`}
-              {...productForm.getInputProps(`prices.${role}`)}
+              key={role._id}
+              label={`Precio para ${role.name}`}
+              placeholder={`Precio especial para ${role.name}`}
+              {...form.getInputProps(`prices.${role.name}`)}
               mt="sm"
+              min={0}
             />
           ))}
 
-          <NumberInput
-            label="Stock"
-            placeholder="0"
-            required
-            mt="md"
-            min={0}
-            {...productForm.getInputProps("stock")}
+          <TextInput
+            label="URLs de Imágenes"
+            placeholder="Separadas por comas"
+            {...form.getInputProps("images")}
+            mt="lg"
+            description="Ingresa las URLs de las imágenes separadas por comas"
           />
-          <FileInput
-            label="Imágenes del Producto"
-            placeholder="Sube imágenes"
-            accept="image/*"
-            multiple
-            mt="md"
-            {...productForm.getInputProps("images")}
-          />
-          <Button type="submit" mt="xl">
-            Agregar Producto
-          </Button>
-        </form>
-      </Card>
-      <Modal
-        opened={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-        title="Editar Producto"
-      >
-        <form onSubmit={productForm.onSubmit(handleSaveEdit)}>
-          <TextInput label="Nombre" {...productForm.getInputProps("name")} />
-          <Textarea
-            label="Descripción"
-            {...productForm.getInputProps("description")}
-            mt="sm"
-          />
-          <NumberInput
-            label="Precio Base"
-            {...productForm.getInputProps("basePrice")}
-            mt="sm"
-          />
-          <NumberInput
-            label="Stock"
-            {...productForm.getInputProps("stock")}
-            mt="sm"
-          />
-          <Select
-            label="Categoría"
-            data={categories.map((c) => c.name)}
-            {...productForm.getInputProps("category")}
-            mt="sm"
-          />
-          {roles.map((role) => (
-            <NumberInput
-              key={role.name}
-              label={`Precio para ${role}`}
-              {...productForm.getInputProps(`prices.${role}`)}
-              mt="sm"
-            />
-          ))}
+
+          {/* Campo oculto para el ID del vendedor */}
+          <input type="hidden" {...form.getInputProps("sellerId")} />
+
+          {error && (
+            <Text color="red" size="sm" mt="sm">
+              {error}
+            </Text>
+          )}
+
           <Group mt="xl">
-            <Button type="submit">Guardar</Button>
-            <Button variant="light" onClick={() => setIsEditModalOpen(false)}>
+            <Button type="submit" loading={loading}>
+              {editingProduct ? "Guardar" : "Crear"}
+            </Button>
+            <Button
+              variant="light"
+              onClick={() => setIsEditModalOpen(false)}
+              disabled={loading}
+            >
               Cancelar
             </Button>
           </Group>
@@ -263,10 +321,14 @@ export default function ProductsTable() {
       >
         <Text>¿Desea eliminar el producto {productToDelete?.name}?</Text>
         <Group mt="xl">
-          <Button onClick={confirmDelete} color="red">
+          <Button onClick={confirmDelete} color="red" loading={loading}>
             Sí, eliminar
           </Button>
-          <Button variant="light" onClick={() => setIsDeleteModalOpen(false)}>
+          <Button
+            variant="light"
+            onClick={() => setIsDeleteModalOpen(false)}
+            disabled={loading}
+          >
             No, cancelar
           </Button>
         </Group>

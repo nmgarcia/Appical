@@ -75,19 +75,19 @@ export default function RoleManagement() {
         Crear Rol
       </Button>
       <Table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {roles?.map((role: Role) => (
-            <tr key={role._id}>
-              <td>{role.name}</td>
-              <td>{role.description}</td>
-              <td>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Nombre</Table.Th>
+            <Table.Th>Descripción</Table.Th>
+            <Table.Th>Acciones</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {roles?.map((role) => (
+            <Table.Tr key={role._id}>
+              <Table.Td>{role.name}</Table.Td>
+              <Table.Td>{role.description}</Table.Td>
+              <Table.Td>
                 <Button
                   onClick={() => handleEditRole(role)}
                   variant="light"
@@ -104,10 +104,10 @@ export default function RoleManagement() {
                 >
                   Eliminar
                 </Button>
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           ))}
-        </tbody>
+        </Table.Tbody>
       </Table>
 
       <Modal

@@ -34,7 +34,7 @@ export default function Header() {
             >
               Productos
             </Link>
-            <Link
+            {/* <Link
               href="/capacitaciones"
               className="text-gray-700 hover:text-green-600"
             >
@@ -45,8 +45,8 @@ export default function Header() {
               className="text-gray-700 hover:text-green-600"
             >
               Vendedores
-            </Link>
-            {user && user.role.name === "vendedor" && (
+            </Link> */}
+            {user && user.role.name === "admin" && (
               <Link
                 href="/panel-vendedor"
                 className="text-gray-700 hover:text-green-600"
@@ -69,9 +69,14 @@ export default function Header() {
                     Perfil
                   </Menu.Item>
                   {user.role.name === "cliente" && (
-                    <Menu.Item component={Link} href="/registro-vendedor">
-                      Registrarse como vendedor
-                    </Menu.Item>
+                    <>
+                      <Menu.Item component={Link} href="/carrito">
+                        Mi Carrito
+                      </Menu.Item>
+                      {/* <Menu.Item component={Link} href="/registro-vendedor">
+                        Registrarse como vendedor
+                      </Menu.Item> */}
+                    </>
                   )}
                   <Menu.Item onClick={logout}>Cerrar Sesión</Menu.Item>
                 </Menu.Dropdown>
@@ -113,7 +118,7 @@ export default function Header() {
             >
               Productos
             </Link>
-            <Link
+            {/* <Link
               href="/capacitaciones"
               className="text-gray-700 hover:text-green-600"
             >
@@ -124,8 +129,8 @@ export default function Header() {
               className="text-gray-700 hover:text-green-600"
             >
               Vendedores
-            </Link>
-            {user && user.role.name === "vendedor" && (
+            </Link> */}
+            {user && user.role.name === "admin" && (
               <Link
                 href="/panel-vendedor"
                 className="text-gray-700 hover:text-green-600"

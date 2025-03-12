@@ -6,11 +6,11 @@ export interface Product {
   basePrice: number
   prices?: Price[]
   images: string[]
-  seller: string
+  seller?: string
   sellerLocation?: string
   category: Category
   condition: string
-  sellerId?:string
+  sellerId:string
   stock?: number 
   description?: string
   technicalDetails?: TechnicalDetail[] 

@@ -8,6 +8,7 @@ export interface Order {
   items: OrderItem[]
   total: number
   status: OrderStatus
+  sellerId: string
 }
 
 export interface OrderItem {

@@ -11,7 +11,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
         <Image
-          src={product.images[0] || "/placeholder.svg"}
+          src={product.images[0] || "/placeholder.svg?height=200&width=200"}
           height={160}
           alt={product.name}
         />
@@ -25,7 +25,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Text>
 
       <Text fw={700} size="xl" mt="md">
-        ${product.basePrice}
+        ${product.basePrice.toFixed(2)}
       </Text>
 
       <Badge color="green" variant="light" mt="xs">

@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { Checkbox, RangeSlider, Button, Stack, Text } from "@mantine/core";
 import type { Product } from "@/types/product";
 
@@ -12,6 +14,15 @@ export default function Filters({ onFilterChange, products }: FiltersProps) {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
 
+  // Calcular el precio máximo para el slider
+  useEffect(() => {
+    if (products.length > 0) {
+      const maxPrice = Math.max(...products.map((p) => p.basePrice));
+      setPriceRange([0, Math.min(maxPrice, 1000)]);
+    }
+  }, [products]);
+
+  // Extraer categorías y condiciones únicas de los productos
   const categories = Array.from(new Set(products.map((p) => p.category)));
   const conditions = Array.from(new Set(products.map((p) => p.condition)));
 
@@ -19,7 +30,7 @@ export default function Filters({ onFilterChange, products }: FiltersProps) {
     const filtered = products.filter(
       (product) =>
         (selectedCategories.length === 0 ||
-          selectedCategories.includes(product.category)) &&
+          selectedCategories.includes(product.category.name)) &&
         product.basePrice >= priceRange[0] &&
         product.basePrice <= priceRange[1] &&
         (selectedConditions.length === 0 ||
@@ -30,25 +41,25 @@ export default function Filters({ onFilterChange, products }: FiltersProps) {
 
   const resetFilters = () => {
     setSelectedCategories([]);
-    setPriceRange([0, 1000]);
+    setPriceRange([0, Math.max(...products.map((p) => p.basePrice))]);
     setSelectedConditions([]);
     onFilterChange(products);
   };
 
   return (
-    <Stack gap="md">
+    <Stack>
       <Text fw={700}>Categorías</Text>
       {categories.map((category) => (
         <Checkbox
-          key={category}
-          label={category}
-          checked={selectedCategories.includes(category)}
+          key={category.name}
+          label={category.name}
+          checked={selectedCategories.includes(category.name)}
           onChange={(e) => {
             if (e.currentTarget.checked) {
-              setSelectedCategories([...selectedCategories, category]);
+              setSelectedCategories([...selectedCategories, category.name]);
             } else {
               setSelectedCategories(
-                selectedCategories.filter((c) => c !== category)
+                selectedCategories.filter((c) => c !== category.name)
               );
             }
           }}
@@ -60,7 +71,7 @@ export default function Filters({ onFilterChange, products }: FiltersProps) {
       </Text>
       <RangeSlider
         min={0}
-        max={1000}
+        max={Math.max(...products.map((p) => p.basePrice), 1000)}
         value={priceRange}
         onChange={setPriceRange}
         label={(value) => `$${value}`}

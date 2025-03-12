@@ -54,7 +54,7 @@ export default function FeaturedCourses() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {courses.map((course) => (
             <Card
-              key={course._id}
+              key={course.id}
               shadow="sm"
               padding="lg"
               radius="md"
@@ -87,7 +87,7 @@ export default function FeaturedCourses() {
                   </p>
                   <Button
                     component={Link}
-                    href={`/capacitaciones/${course._id}`}
+                    href={`/capacitaciones/${course.id}`}
                     variant="light"
                     color="green"
                     radius="md"

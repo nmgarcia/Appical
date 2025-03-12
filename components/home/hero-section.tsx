@@ -28,7 +28,7 @@ export default function HeroSection() {
             <Button component={Link} href="/productos" size="lg" color="green">
               Explorar Productos
             </Button>
-            <Button
+            {/* <Button
               component={Link}
               href="/registro-vendedor"
               size="lg"
@@ -37,7 +37,7 @@ export default function HeroSection() {
               className="border-white text-white hover:bg-white hover:text-green-700"
             >
               Registrarme como Vendedor
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

@@ -1,111 +1,112 @@
 "use client";
 
-import { useState } from "react";
-import { Grid, Pagination } from "@mantine/core";
+import { useState, useEffect } from "react";
+import { Grid, Loader, Text, Container } from "@mantine/core";
+import { productService } from "@/services/productService";
+import type { Product } from "@/types/product";
+import ProductCard from "./product-card";
 import SearchBar from "./search-bar";
 import Filters from "./filters";
-import ProductCard from "./product-card";
-import type { Product } from "@/types/product";
 
-// Simulated product data
-const products: Product[] = [
-  {
-    id: "1",
-    name: "Semillas de Maíz Economicas",
-    basePrice: 120.0,
-    images: ["/placeholder.svg?height=200&width=200"],
-    seller: "AgroSemillas S.A.",
-    category: "Semillas",
-    sellerId: "vendorA",
-    condition: "Nuevo",
-    prices: [],
-    stock: 0,
-    description: "",
-    sellerLocation: "",
-  },
-  {
-    id: "2",
-    name: "Semillas de Maíz Premium",
-    basePrice: 120.0,
-    images: ["/placeholder.svg?height=200&width=200"],
-    seller: "AgroSemillas S.A.",
-    sellerId: "vendorB",
-    category: "Semillas",
-    condition: "Nuevo",
-    prices: [],
-    stock: 0,
-    description: "",
-    sellerLocation: "",
-  },
-  {
-    id: "3",
-    name: "Semillas de Maíz Comunes",
-    basePrice: 120.0,
-    images: ["/placeholder.svg?height=200&width=200"],
-    seller: "AgroSemillas S.A.",
-    category: "Semillas",
-    sellerId: "vendorC",
-    condition: "Nuevo",
-    prices: [],
-    stock: 0,
-    description: "",
-    sellerLocation: "",
-  },
-  // ... add more products
-];
 interface ProductCatalogProps {
   vendorId?: string;
 }
+
 export default function ProductCatalog({ vendorId }: ProductCatalogProps) {
-  // Filter products by vendor if vendorId is provided
-  const initialProducts = vendorId
-    ? products.filter((p) => p.sellerId === vendorId)
-    : products;
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const [filteredProducts, setFilteredProducts] = useState(initialProducts);
-  const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 12;
+  useEffect(() => {
+    loadProducts();
+  }, [vendorId]);
 
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
+  const loadProducts = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Si hay un vendorId, filtramos por ese vendedor
+      const filters = vendorId ? { sellerId: vendorId } : {};
+      const data = await productService.getProducts(filters);
+      setProducts(data);
+      setFilteredProducts(data);
+    } catch (err) {
+      console.error("Error al cargar productos:", err);
+      setError(
+        "No se pudieron cargar los productos. Por favor, intenta de nuevo."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    if (!term.trim()) {
+      setFilteredProducts(products);
+      return;
+    }
+
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(term.toLowerCase()) ||
+        product.description?.toLowerCase().includes(term.toLowerCase()) ||
+        product.category.name.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
+  const handleFilterChange = (filtered: Product[]) => {
+    setFilteredProducts(filtered);
+  };
+
+  if (loading) {
+    return (
+      <Container className="flex justify-center items-center py-20">
+        <Loader size="lg" />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="py-10">
+        <Text color="red" size="lg" ta="center">
+          {error}
+        </Text>
+      </Container>
+    );
+  }
 
   return (
-    <div className="flex flex-col md:flex-row gap-8">
-      <aside className="w-full md:w-1/4">
-        <Filters
-          onFilterChange={(filtered) => setFilteredProducts(filtered)}
-          products={products}
-        />
-      </aside>
-      <main className="w-full md:w-3/4">
-        <SearchBar
-          onSearch={(term) => {
-            const filtered = products.filter(
-              (p) =>
-                p.name.toLowerCase().includes(term.toLowerCase()) ||
-                p.seller.toLowerCase().includes(term.toLowerCase())
-            );
-            setFilteredProducts(filtered);
-          }}
-        />
-        <Grid className="mt-8">
-          {currentProducts.map((product) => (
-            <Grid.Col key={product._id} span={{ base: 12, sm: 6, md: 4 }}>
-              <ProductCard product={product} />
-            </Grid.Col>
-          ))}
-        </Grid>
-        <Pagination
-          className="mt-8 flex justify-center"
-          total={Math.ceil(filteredProducts.length / productsPerPage)}
-          value={currentPage}
-          onChange={setCurrentPage}
-        />
-      </main>
+    <div>
+      <div className="mb-6">
+        <SearchBar onSearch={handleSearch} />
+      </div>
+
+      <Grid>
+        <Grid.Col span={{ base: 12, md: 3 }}>
+          <Filters onFilterChange={handleFilterChange} products={products} />
+        </Grid.Col>
+
+        <Grid.Col span={{ base: 12, md: 9 }}>
+          {filteredProducts.length === 0 ? (
+            <Text ta="center" size="lg" c="dimmed" className="py-10">
+              No se encontraron productos que coincidan con tu búsqueda.
+            </Text>
+          ) : (
+            <Grid>
+              {filteredProducts.map((product) => (
+                <Grid.Col key={product._id} span={{ base: 12, sm: 6, lg: 4 }}>
+                  <ProductCard product={product} />
+                </Grid.Col>
+              ))}
+            </Grid>
+          )}
+        </Grid.Col>
+      </Grid>
     </div>
   );
 }

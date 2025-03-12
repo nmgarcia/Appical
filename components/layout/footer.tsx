@@ -24,17 +24,17 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               <Link href="#" className="text-gray-300 hover:text-white">
-                <Facebook size={20} />
-              </Link>
-              <Link href="#" className="text-gray-300 hover:text-white">
                 <Instagram size={20} />
+              </Link>
+              {/* <Link href="#" className="text-gray-300 hover:text-white">
+                <Facebook size={20} />
               </Link>
               <Link href="#" className="text-gray-300 hover:text-white">
                 <Twitter size={20} />
               </Link>
               <Link href="#" className="text-gray-300 hover:text-white">
                 <Youtube size={20} />
-              </Link>
+              </Link> */}
             </div>
           </div>
 
@@ -49,7 +49,7 @@ export default function Footer() {
                   Productos
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/capacitaciones"
                   className="text-gray-300 hover:text-white"
@@ -107,7 +107,7 @@ export default function Footer() {
                 >
                   Política de Privacidad
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -128,7 +128,7 @@ export default function Footer() {
             reservados.
           </p>
           <div className="mt-2 flex justify-center gap-4">
-            <Link href="/terminos" className="hover:text-white">
+            {/* <Link href="/terminos" className="hover:text-white">
               Términos y Condiciones
             </Link>
             <Link href="/privacidad" className="hover:text-white">
@@ -136,7 +136,7 @@ export default function Footer() {
             </Link>
             <Link href="/cookies" className="hover:text-white">
               Cookies
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>
