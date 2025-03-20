@@ -71,7 +71,7 @@ export default function RoleManagement() {
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} mb="md">
+      <Button onClick={() => setIsModalOpen(true)} mb="md" mt="sm">
         Crear Rol
       </Button>
       <Table>

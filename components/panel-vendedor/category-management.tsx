@@ -108,7 +108,12 @@ export default function CategoryManagement() {
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} mb="md" loading={isLoading}>
+      <Button
+        onClick={() => setIsModalOpen(true)}
+        mb="md"
+        loading={isLoading}
+        mt="sm"
+      >
         Crear Categoría
       </Button>
 
@@ -119,19 +124,19 @@ export default function CategoryManagement() {
       )}
 
       <Table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Nombre</Table.Th>
+            <Table.Th>Descripción</Table.Th>
+            <Table.Th>Acciones</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {categories.map((category) => (
-            <tr key={category._id}>
-              <td>{category.name}</td>
-              <td>{category.description || "-"}</td>
-              <td>
+            <Table.Tr key={category._id}>
+              <Table.Td>{category.name}</Table.Td>
+              <Table.Td>{category.description || "-"}</Table.Td>
+              <Table.Td>
                 <Button
                   onClick={() => handleEditCategory(category)}
                   variant="light"
@@ -148,17 +153,17 @@ export default function CategoryManagement() {
                 >
                   Eliminar
                 </Button>
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           ))}
           {categories.length === 0 && !isLoading && (
-            <tr>
-              <td colSpan={3} style={{ textAlign: "center" }}>
+            <Table.Tr>
+              <Table.Td colSpan={3} style={{ textAlign: "center" }}>
                 No hay categorías disponibles
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           )}
-        </tbody>
+        </Table.Tbody>
       </Table>
 
       <Modal

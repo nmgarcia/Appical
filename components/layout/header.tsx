@@ -70,9 +70,9 @@ export default function Header() {
                   </Menu.Item>
                   {user.role.name === "cliente" && (
                     <>
-                      <Menu.Item component={Link} href="/carrito">
+                      {/* <Menu.Item component={Link} href="/carrito">
                         Mi Carrito
-                      </Menu.Item>
+                      </Menu.Item> */}
                       {/* <Menu.Item component={Link} href="/registro-vendedor">
                         Registrarse como vendedor
                       </Menu.Item> */}
@@ -150,7 +150,7 @@ export default function Header() {
                 >
                   Perfil de {user.name}
                 </Button>
-                {user.role.name === "cliente" && (
+                {/* {user.role.name === "cliente" && (
                   <Button
                     component={Link}
                     href="/registro-vendedor"
@@ -159,7 +159,7 @@ export default function Header() {
                   >
                     Registrarse como vendedor
                   </Button>
-                )}
+                )} */}
                 <Button onClick={logout} variant="outline" color="red">
                   Cerrar Sesión
                 </Button>

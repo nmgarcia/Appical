@@ -179,7 +179,7 @@ export default function OrdersTable() {
 
       // Crear el objeto de pedido
       const orderData: Omit<Order, "_id"> = {
-        date: values.date,
+        date: values.updatedAt,
         client: selectedClient,
         items: orderItems,
         total: calculateTotal(),
@@ -275,7 +275,7 @@ export default function OrdersTable() {
 
   return (
     <>
-      <Button onClick={handleCreateOrder} mb="md" loading={loading}>
+      <Button onClick={handleCreateOrder} mb="md" loading={loading} mt="sm">
         Crear Pedido
       </Button>
 
@@ -286,31 +286,31 @@ export default function OrdersTable() {
       )}
 
       <Table>
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Cliente</th>
-            <th>Artículos</th>
-            <th>Total</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Fecha</Table.Th>
+            <Table.Th>Cliente</Table.Th>
+            <Table.Th>Artículos</Table.Th>
+            <Table.Th>Total</Table.Th>
+            <Table.Th>Estado</Table.Th>
+            <Table.Th>Acciones</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {orders.map((order) => (
-            <tr key={order._id}>
-              <td>{order.date}</td>
-              <td>{order.client.name}</td>
-              <td>
+            <Table.Tr key={order._id}>
+              <Table.Td>{order.updatedAt}</Table.Td>
+              <Table.Td>{order.client.name}</Table.Td>
+              <Table.Td>
                 {order.items.map((item) => (
                   <div key={item.product._id}>
                     {item.product.name} ({item.quantity} x $
                     {item.price.toFixed(2)})
                   </div>
                 ))}
-              </td>
-              <td>${order.total.toFixed(2)}</td>
-              <td>
+              </Table.Td>
+              <Table.Td>${order.total.toFixed(2)}</Table.Td>
+              <Table.Td>
                 <Badge
                   color={
                     order.status === OrderStatus.DELIVERED
@@ -324,8 +324,8 @@ export default function OrdersTable() {
                 >
                   {order.status}
                 </Badge>
-              </td>
-              <td>
+              </Table.Td>
+              <Table.Td>
                 <Button
                   onClick={() => handleEditOrder(order)}
                   variant="light"
@@ -341,17 +341,17 @@ export default function OrdersTable() {
                 >
                   Actualizar Estado
                 </Button>
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           ))}
           {orders.length === 0 && !loading && (
-            <tr>
-              <td colSpan={6} style={{ textAlign: "center" }}>
+            <Table.Tr>
+              <Table.Td colSpan={6} style={{ textAlign: "center" }}>
                 No hay pedidos disponibles
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           )}
-        </tbody>
+        </Table.Tbody>
       </Table>
 
       {/* Modal para crear pedido */}

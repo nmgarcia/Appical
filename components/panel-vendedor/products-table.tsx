@@ -171,7 +171,7 @@ export default function ProductsTable() {
 
   return (
     <>
-      <Button onClick={handleCreateProduct} mb="md" loading={loading}>
+      <Button onClick={handleCreateProduct} mb="md" loading={loading} mt="sm">
         Crear Producto
       </Button>
 
@@ -182,23 +182,23 @@ export default function ProductsTable() {
       )}
 
       <Table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Precio Base</th>
-            <th>Stock</th>
-            <th>Categoría</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Nombre</Table.Th>
+            <Table.Th>Precio Base</Table.Th>
+            <Table.Th>Stock</Table.Th>
+            <Table.Th>Categoría</Table.Th>
+            <Table.Th>Acciones</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {products.map((product) => (
-            <tr key={product._id}>
-              <td>{product.name}</td>
-              <td>${product.basePrice}</td>
-              <td>{product.stock}</td>
-              <td>{product.category.name}</td>
-              <td>
+            <Table.Tr key={product._id}>
+              <Table.Td>{product.name}</Table.Td>
+              <Table.Td>${product.basePrice.toFixed(2)}</Table.Td>
+              <Table.Td>{product.stock}</Table.Td>
+              <Table.Td>{product.category.name}</Table.Td>
+              <Table.Td>
                 <Button
                   onClick={() => handleEditProduct(product)}
                   variant="light"
@@ -215,17 +215,17 @@ export default function ProductsTable() {
                 >
                   Eliminar
                 </Button>
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           ))}
           {products.length === 0 && !loading && (
-            <tr>
-              <td colSpan={5} style={{ textAlign: "center" }}>
+            <Table.Tr>
+              <Table.Td colSpan={5} style={{ textAlign: "center" }}>
                 No hay productos disponibles
-              </td>
-            </tr>
+              </Table.Td>
+            </Table.Tr>
           )}
-        </tbody>
+        </Table.Tbody>
       </Table>
 
       <Modal

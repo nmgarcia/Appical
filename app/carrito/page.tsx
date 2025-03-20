@@ -10,14 +10,28 @@ import {
 } from "@mantine/core";
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useCart } from "@/contexts/cart-context";
+// import { useCart } from "@/contexts/cart-context";
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 
 export default function ShoppingCart() {
-  const { items, removeItem, updateQuantity, clearCart } = useCart();
+  // const { items, removeItem, updateQuantity, clearCart } = useCart();
   const { user } = useAuth();
   const router = useRouter();
+
+  // Datos hardcoded del carrito
+  const items = [
+    {
+      product: {
+        _id: "1",
+        name: "Producto de Ejemplo",
+        basePrice: 29.99,
+        stock: 10,
+        images: ["/placeholder.svg?height=100&width=100"],
+      },
+      quantity: 2,
+    },
+  ];
 
   // Calcular subtotal
   const subtotal = items.reduce(
@@ -76,18 +90,20 @@ export default function ShoppingCart() {
                 </Text>
                 <NumberInput
                   value={item.quantity}
-                  onChange={(value) =>
-                    updateQuantity(item.product._id, Number(value))
-                  }
+                  // onChange={(value) =>
+                  //   updateQuantity(item.product._id, Number(value))
+                  // }
                   min={1}
                   max={item.product.stock || 99}
                   style={{ width: 100 }}
+                  disabled
                 />
               </div>
               <Button
                 variant="subtle"
                 color="red"
-                onClick={() => removeItem(item.product._id)}
+                // onClick={() => removeItem(item.product._id)}
+                disabled
               >
                 <Trash2 size={20} />
               </Button>
@@ -95,7 +111,12 @@ export default function ShoppingCart() {
           </Card>
         ))}
 
-        <Button variant="outline" color="red" onClick={clearCart} mt="md">
+        <Button
+          variant="outline"
+          color="red"
+          /* onClick={clearCart} */ mt="md"
+          disabled
+        >
           Vaciar Carrito
         </Button>
       </Grid.Col>
