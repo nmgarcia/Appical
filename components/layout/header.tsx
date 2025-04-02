@@ -28,12 +28,12 @@ export default function Header() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           <nav className="flex gap-6">
-            <Link
+            {/* <Link
               href="/productos"
               className="text-gray-700 hover:text-green-600"
             >
               Productos
-            </Link>
+            </Link> */}
             {/* <Link
               href="/capacitaciones"
               className="text-gray-700 hover:text-green-600"
@@ -46,14 +46,14 @@ export default function Header() {
             >
               Vendedores
             </Link> */}
-            {user && user.role.name === "admin" && (
+            {/* {user && user.role.name === "admin" && (
               <Link
                 href="/panel-vendedor"
                 className="text-gray-700 hover:text-green-600"
               >
                 Panel de Vendedor
               </Link>
-            )}
+            )} */}
           </nav>
           <div className="flex gap-3">
             {user ? (
@@ -83,7 +83,7 @@ export default function Header() {
               </Menu>
             ) : (
               <>
-                <Button
+                {/* <Button
                   component={Link}
                   href="/login"
                   variant="outline"
@@ -93,7 +93,7 @@ export default function Header() {
                 </Button>
                 <Button component={Link} href="/registro-cliente" color="green">
                   Registrarse
-                </Button>
+                </Button> */}
               </>
             )}
           </div>
