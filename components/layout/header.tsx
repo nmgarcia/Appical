@@ -16,13 +16,11 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/placeholder-logo.png"
+            src="/appical-logo.svg"
             alt="Appical Logo"
-            width={40}
-            height={40}
-            className="h-10 w-auto"
+            width={150}
+            height={75}
           />
-          <span className="text-xl font-bold text-green-700">Appical</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -100,12 +98,12 @@ export default function Header() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button
+        {/* <button
           className="md:hidden text-gray-700"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <Menu2 size={24} />
-        </button>
+        </button> */}
       </div>
 
       {/* Mobile Menu */}

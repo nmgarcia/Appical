@@ -53,7 +53,7 @@ export default function BenefitsSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <Title order={2} className="text-3xl font-bold mb-2">
+          <Title order={2} className="text-3xl font-bold mb-2 text-green-950">
             Beneficios de Appical
           </Title>
           <div className="flex justify-center items-center mb-4">

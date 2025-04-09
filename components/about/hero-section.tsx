@@ -29,7 +29,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl"
         >
-          <Title className="text-5xl font-bold mb-6">
+          <Title className="text-5xl font-bold mb-6 text-green-0">
             El futuro del agro está aquí: conecta, aprende y crece con Appical.
           </Title>
 
@@ -54,6 +54,7 @@ export default function HeroSection() {
               href="#contacto"
               size="lg"
               color="green"
+              radius={"md"}
               className="bg-green-600 hover:bg-green-700"
             >
               Contactanos
@@ -65,6 +66,7 @@ export default function HeroSection() {
               size="lg"
               variant="outline"
               color="white"
+              radius={"md"}
               className="border-white text-white hover:bg-white hover:text-green-700"
             >
               Conoce Más

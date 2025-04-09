@@ -8,7 +8,8 @@ const ALLOWED_PATHS = [
   "/_next",
   "/api", 
   "/favicon.ico",
-  "/placeholder-logo.png"
+  "/placeholder-logo.png",
+  "/appical-logo.svg"
 ]
 
 export function middleware(request: NextRequest) {
