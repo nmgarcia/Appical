@@ -114,14 +114,13 @@ export default function ServicesSection() {
                   </Text>
                   <Button
                     component={Link}
-                    href="/vendedores"
+                    href="/directorio"
                     variant="light"
                     color="green"
                     fullWidth
                     className="hover:bg-green-50 transition-colors"
                   >
-                    Próximamente
-                    {/* Explorar Directorio */}
+                    Explorar Directorio
                     <ArrowRight size={16} />
                   </Button>
                 </div>

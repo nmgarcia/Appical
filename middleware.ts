@@ -9,7 +9,9 @@ const ALLOWED_PATHS = [
   "/api", 
   "/favicon.ico",
   "/placeholder-logo.png",
-  "/appical-logo.svg"
+  "/appical-logo.svg",
+  "/directorio",
+  "/placeholder.svg"
 ]
 
 export function middleware(request: NextRequest) {

@@ -26,6 +26,18 @@ export default function Header() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           <nav className="flex gap-6">
+            <Link
+              href="/directorio"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Directorio
+            </Link>
+            <Link
+              href="/about-us"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Quiénes somos
+            </Link>
             {/* <Link
               href="/productos"
               className="text-gray-700 hover:text-green-600"
@@ -98,12 +110,12 @@ export default function Header() {
         </div>
 
         {/* Mobile Menu Button */}
-        {/* <button
+        <button
           className="md:hidden text-gray-700"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           <Menu2 size={24} />
-        </button> */}
+        </button>
       </div>
 
       {/* Mobile Menu */}
@@ -111,11 +123,23 @@ export default function Header() {
         <div className="md:hidden mt-4 px-6 pb-4">
           <nav className="flex flex-col gap-4">
             <Link
+              href="/directorio"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Directorio de empresas
+            </Link>
+            <Link
+              href="/about-us"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Quiénes somos
+            </Link>
+            {/* <Link
               href="/productos"
               className="text-gray-700 hover:text-green-600"
             >
               Productos
-            </Link>
+            </Link> */}
             {/* <Link
               href="/capacitaciones"
               className="text-gray-700 hover:text-green-600"
@@ -164,7 +188,7 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Button
+                {/* <Button
                   component={Link}
                   href="/login"
                   variant="outline"
@@ -180,7 +204,7 @@ export default function Header() {
                   fullWidth
                 >
                   Registrarse
-                </Button>
+                </Button> */}
               </>
             )}
           </div>
