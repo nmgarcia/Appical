@@ -23,7 +23,7 @@ export default function HeaderSearch({
   };
 
   return (
-    <div className="bg-gradient-to-r from-green-800 to-green-600 text-white py-16">
+    <div className="bg-gradient-to-r from-green-900 to-green-700 text-white py-16">
       <Container size="xl">
         <div className="text-center mb-8">
           <Title className="text-4xl md:text-5xl font-bold mb-4">

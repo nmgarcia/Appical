@@ -33,6 +33,12 @@ export default function Header() {
               Directorio
             </Link>
             <Link
+              href="/capacitaciones"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Capacitaciones
+            </Link>
+            <Link
               href="/about-us"
               className="text-gray-700 hover:text-green-600"
             >
@@ -126,7 +132,13 @@ export default function Header() {
               href="/directorio"
               className="text-gray-700 hover:text-green-600"
             >
-              Directorio de empresas
+              Directorio
+            </Link>
+            <Link
+              href="/capacitaciones"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Capacitaciones
             </Link>
             <Link
               href="/about-us"
