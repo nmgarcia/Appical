@@ -29,7 +29,7 @@ export default function HeaderSearch({
           <Title className="text-4xl md:text-5xl font-bold mb-4">
             Conectá con Empresas del Agro
           </Title>
-          <Text size="xl" className="max-w-3xl mx-auto">
+          <Text size="xl" className="w-3xl text-center">
             Buscá por rubro, producto, ubicación o tipo de producción
           </Text>
         </div>
@@ -62,7 +62,7 @@ export default function HeaderSearch({
           </form>
         </div>
 
-        <div className="flex justify-center mt-8">
+        {/* <div className="flex justify-center mt-8">
           <Button
             onClick={onOpenPricing}
             size="lg"
@@ -72,7 +72,7 @@ export default function HeaderSearch({
             <Building size={20} />
             Publicá tu Empresa
           </Button>
-        </div>
+        </div> */}
       </Container>
     </div>
   );

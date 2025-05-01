@@ -127,7 +127,7 @@ export default function JoinSection() {
             <div className="h-1 w-4 bg-green-300 rounded-full mx-2"></div>
             <div className="h-1 w-16 bg-green-500 rounded-full"></div>
           </div>
-          <Text size="lg" className="max-w-2xl mx-auto text-gray-700 mb-8">
+          <Text size="lg" className="w-2xl mx-auto text-gray-700 mb-8">
             Forma parte de nuestra comunidad y transforma juntos la industria
             agroalimentaria.
           </Text>

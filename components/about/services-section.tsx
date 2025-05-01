@@ -18,7 +18,7 @@ import {
   Building2,
   GraduationCap,
   ShoppingCart,
-  Shield,
+  Gavel,
   ArrowRight,
 } from "lucide-react";
 
@@ -177,8 +177,7 @@ export default function ServicesSection() {
                     fullWidth
                     className="hover:bg-green-50 transition-colors"
                   >
-                    Próximamente
-                    {/* Ver Capacitaciones */}
+                    Ver Capacitaciones
                     <ArrowRight size={16} />
                   </Button>
                 </div>
@@ -253,8 +252,8 @@ export default function ServicesSection() {
               >
                 <div className="relative h-56 w-full">
                   <Image
-                    src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="Transacciones Seguras"
+                    src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    alt="Sistema de Licitaciones"
                     fill
                     style={{ objectFit: "cover" }}
                   />
@@ -266,7 +265,7 @@ export default function ServicesSection() {
                       color="green"
                       className="border-4 border-white"
                     >
-                      <Shield size={30} />
+                      <Gavel size={30} />
                     </ThemeIcon>
                   </div>
                 </div>
@@ -276,26 +275,26 @@ export default function ServicesSection() {
                     order={3}
                     className="text-2xl font-bold mb-3 text-green-700"
                   >
-                    Transacciones Seguras
+                    Sistema de Licitaciones
                   </Title>
                   <Divider className="mb-4" />
                   <Text className="text-gray-700 mb-6 leading-relaxed">
-                    Un entorno confiable y transparente donde cada operación es
-                    respaldada por información clara y actualizada. Nuestro
-                    sistema garantiza la seguridad en cada transacción y protege
-                    tanto a compradores como a vendedores.
+                    Conectamos productores con proveedores a través de un
+                    sistema transparente y eficiente de licitaciones. Los
+                    productores publican sus necesidades y los proveedores
+                    pueden ofertar, creando un entorno competitivo que beneficia
+                    a ambas partes.
                   </Text>
                   <Button
                     component={Link}
-                    href="/acerca-de#beneficios"
+                    href="/licitaciones"
                     variant="light"
                     color="green"
                     fullWidth
+                    rightSection={<ArrowRight size={16} />}
                     className="hover:bg-green-50 transition-colors"
                   >
-                    Próximamente
-                    {/* Conocer Más */}
-                    <ArrowRight size={16} />
+                    Conocer Licitaciones
                   </Button>
                 </div>
               </Card>

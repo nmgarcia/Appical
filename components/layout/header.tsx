@@ -30,13 +30,19 @@ export default function Header() {
               href="/directorio"
               className="text-gray-700 hover:text-green-600"
             >
-              Directorio
+              Proveedores
             </Link>
             <Link
               href="/capacitaciones"
               className="text-gray-700 hover:text-green-600"
             >
               Capacitaciones
+            </Link>
+            <Link
+              href="/licitaciones"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Licitaciones
             </Link>
             <Link
               href="/about-us"
@@ -132,7 +138,7 @@ export default function Header() {
               href="/directorio"
               className="text-gray-700 hover:text-green-600"
             >
-              Directorio
+              Proveedores
             </Link>
             <Link
               href="/capacitaciones"
@@ -141,11 +147,18 @@ export default function Header() {
               Capacitaciones
             </Link>
             <Link
+              href="/licitaciones"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Licitaciones
+            </Link>
+            <Link
               href="/about-us"
               className="text-gray-700 hover:text-green-600"
             >
               Quiénes somos
             </Link>
+
             {/* <Link
               href="/productos"
               className="text-gray-700 hover:text-green-600"

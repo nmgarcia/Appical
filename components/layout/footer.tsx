@@ -10,13 +10,12 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Image
-                src="/placeholder-logo.png"
+                src="/appical-logo.svg"
                 alt="Appical Logo"
-                width={40}
-                height={40}
-                className="h-10 w-auto"
+                width={100}
+                height={100}
+                className="h-10 w-auto bg-white p-2 rounded-lg"
               />
-              <span className="text-xl font-bold text-white">Appical</span>
             </Link>
             <p className="text-gray-300 mb-4">
               Conectando el campo con el futuro. La plataforma líder para el

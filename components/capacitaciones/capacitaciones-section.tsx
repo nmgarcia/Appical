@@ -45,7 +45,7 @@ export default function CapacitacionesSection({
 
   if (capacitaciones.length === 0) {
     return (
-      <div className="mb-12">
+      <div className="mb-12 gap-4">
         <Title order={2} className="text-2xl font-bold mb-6 text-gray-800">
           {title}
         </Title>

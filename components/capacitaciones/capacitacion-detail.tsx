@@ -29,7 +29,9 @@ import {
   Play,
   AlertCircle,
 } from "lucide-react";
-import { capacitacionesMock, type Capacitacion } from "@/data/capacitaciones";
+import { capacitacionesService } from "@/services/capacitacionesService";
+import type { Capacitacion } from "@/data/capacitaciones";
+import InterestFormModal from "@/components/shared/interest-form-modal";
 
 interface CapacitacionDetailProps {
   id: string;
@@ -38,19 +40,25 @@ interface CapacitacionDetailProps {
 export default function CapacitacionDetail({ id }: CapacitacionDetailProps) {
   const [capacitacion, setCapacitacion] = useState<Capacitacion | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    // Simular carga de datos
-    setLoading(true);
-    setTimeout(() => {
-      const found = capacitacionesMock.find((c) => c.id === id);
-      setCapacitacion(found || null);
-      setLoading(false);
-    }, 500);
+    const loadCapacitacion = async () => {
+      setLoading(true);
+      try {
+        const data = await capacitacionesService.getCapacitacionById(id);
+        setCapacitacion(data);
+      } catch (error) {
+        console.error("Error al cargar capacitación:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCapacitacion();
   }, [id]);
 
-  // Ajustar colores para la página de detalle
   if (loading) {
     return (
       <div className="min-h-screen bg-white text-gray-800 flex items-center justify-center">
@@ -102,17 +110,13 @@ export default function CapacitacionDetail({ id }: CapacitacionDetailProps) {
             color="gray"
             leftSection={<ArrowLeft size={16} />}
             onClick={() => router.push("/capacitaciones")}
-            className="absolute top-8 left-4 border-white text-white hover:bg-white hover:text-black"
+            className="absolute top-8 self-start border-white text-white hover:bg-white hover:text-black"
+            w={100}
           >
             Volver
           </Button>
 
-          <Badge
-            color="green"
-            size="lg"
-            radius="sm"
-            className="mb-4 self-start"
-          >
+          <Badge color="green" size="lg" radius="sm" className="mb-4 self-end">
             {capacitacion.categoria}
           </Badge>
           <Title className="text-4xl md:text-5xl font-bold mb-4 text-white">
@@ -121,18 +125,18 @@ export default function CapacitacionDetail({ id }: CapacitacionDetailProps) {
 
           <Grid>
             <Grid.Col span={{ base: 12, md: 8 }}>
-              <Text className="text-xl text-gray-300 mb-6">
+              <Text className="text-xl mb-6" c={"white"}>
                 {capacitacion.descripcion}
               </Text>
 
               <Group gap="xl">
                 <div className="flex items-center">
                   <Clock size={20} className="mr-2 text-green-500" />
-                  <Text className="text-white">{capacitacion.duracion}</Text>
+                  <Text c={"white"}>{capacitacion.duracion}</Text>
                 </div>
                 <div className="flex items-center">
                   <Calendar size={20} className="mr-2 text-green-500" />
-                  <Text className="text-white">
+                  <Text c={"white"}>
                     Inicia:{" "}
                     {new Date(capacitacion.fechaInicio).toLocaleDateString(
                       "es-ES",
@@ -142,11 +146,11 @@ export default function CapacitacionDetail({ id }: CapacitacionDetailProps) {
                 </div>
                 <div className="flex items-center">
                   <User size={20} className="mr-2 text-green-500" />
-                  <Text className="text-white">{capacitacion.instructor}</Text>
+                  <Text c={"white"}>{capacitacion.instructor}</Text>
                 </div>
                 <div className="flex items-center">
                   <Star size={20} className="mr-2 text-yellow-400" />
-                  <Text className="text-white">
+                  <Text c={"white"}>
                     {capacitacion.puntuacion.toFixed(1)} (
                     {capacitacion.views.toLocaleString()} vistas)
                   </Text>
@@ -168,8 +172,11 @@ export default function CapacitacionDetail({ id }: CapacitacionDetailProps) {
                     size="lg"
                     className="bg-green-600 hover:bg-green-700"
                     disabled={capacitacion.proximamente}
+                    onClick={() => setIsFormModalOpen(true)}
                   >
-                    {capacitacion.proximamente ? "Próximamente" : "Inscribirme"}
+                    {capacitacion.proximamente
+                      ? "Próximamente"
+                      : "Preinscribirme"}
                   </Button>
                   <Button
                     component="a"
@@ -377,7 +384,7 @@ export default function CapacitacionDetail({ id }: CapacitacionDetailProps) {
             )}
 
             {!capacitacion.temas && (
-              <Text color="dimmed">
+              <Text c="white">
                 El contenido detallado de este curso estará disponible
                 próximamente.
               </Text>
@@ -417,6 +424,15 @@ export default function CapacitacionDetail({ id }: CapacitacionDetailProps) {
           </Tabs.Panel>
         </Tabs>
       </Container>
+
+      {/* Modal de formulario de preinscripción */}
+      <InterestFormModal
+        opened={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
+        title={`Preinscripción: ${capacitacion.titulo}`}
+        origen="capacitaciones"
+        capacitacionId={capacitacion.id}
+      />
     </div>
   );
 }

@@ -1,20 +1,30 @@
 "use client";
 
-import { Text } from "@mantine/core";
+import { Text, Loader } from "@mantine/core";
 import CompanyCard from "./company-card";
-import { Company } from "@/data/companies";
+import type { Company } from "@/data/companies";
 
 interface CompanyGridProps {
   companies: Company[];
-  onViewProfile: (company: Company) => void;
+  onViewProfile: (companyId: string) => void;
   searchTerm: string;
+  loading?: boolean;
 }
 
 export default function CompanyGrid({
   companies,
   onViewProfile,
   searchTerm,
+  loading = false,
 }: CompanyGridProps) {
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-20">
+        <Loader color="green" />
+      </div>
+    );
+  }
+
   if (companies.length === 0) {
     return (
       <div className="text-center py-12 bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -36,7 +46,7 @@ export default function CompanyGrid({
         <CompanyCard
           key={company.id}
           company={company}
-          onViewProfile={() => onViewProfile(company)}
+          onViewProfile={() => onViewProfile(company.id)}
         />
       ))}
     </div>

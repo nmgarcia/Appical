@@ -1,111 +1,95 @@
 "use client";
 
-import { useState } from "react";
-import { Container } from "@mantine/core";
+import { useState, useEffect } from "react";
+import { Container, Button } from "@mantine/core";
 import HeroCarousel from "./hero-carousel";
 import CapacitacionesSection from "./capacitaciones-section";
 import SearchBar from "./search-bar";
-import { capacitacionesMock, type Capacitacion } from "@/data/capacitaciones";
+import InterestFormModal from "@/components/shared/interest-form-modal";
+import { capacitacionesService } from "@/services/capacitacionesService";
+import type { Capacitacion } from "@/data/capacitaciones";
 
 export default function CapacitacionesPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCapacitaciones, setFilteredCapacitaciones] =
-    useState<Capacitacion[]>(capacitacionesMock);
+  const [filteredCapacitaciones, setFilteredCapacitaciones] = useState<
+    Capacitacion[]
+  >([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
 
-  const handleSearch = (term: string, filters?: any) => {
+  // Estados para almacenar las capacitaciones
+  const [capacitacionesDestacadas, setCapacitacionesDestacadas] = useState<
+    Capacitacion[]
+  >([]);
+  const [capacitacionesNuevas, setCapacitacionesNuevas] = useState<
+    Capacitacion[]
+  >([]);
+  const [capacitacionesProximas, setCapacitacionesProximas] = useState<
+    Capacitacion[]
+  >([]);
+  const [capacitacionesTop10, setCapacitacionesTop10] = useState<
+    Capacitacion[]
+  >([]);
+  const [capacitacionesHidroponia, setCapacitacionesHidroponia] = useState<
+    Capacitacion[]
+  >([]);
+  const [capacitacionesPrincipiante, setCapacitacionesPrincipiante] = useState<
+    Capacitacion[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+
+  // Cargar datos al iniciar
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        // Cargar todas las categorías de capacitaciones
+        const destacadas =
+          await capacitacionesService.getCapacitacionesDestacadas();
+        const nuevas = await capacitacionesService.getCapacitacionesNuevas();
+        const proximas =
+          await capacitacionesService.getCapacitacionesProximas();
+        const top10 = await capacitacionesService.getCapacitacionesTop10();
+        const hidroponia =
+          await capacitacionesService.getCapacitacionesByCategoria(
+            "Hidroponía"
+          );
+        const principiante =
+          await capacitacionesService.getCapacitacionesByNivel("Principiante");
+
+        setCapacitacionesDestacadas(destacadas);
+        setCapacitacionesNuevas(nuevas);
+        setCapacitacionesProximas(proximas);
+        setCapacitacionesTop10(top10);
+        setCapacitacionesHidroponia(hidroponia);
+        setCapacitacionesPrincipiante(principiante);
+        setFilteredCapacitaciones([]); // Inicializar vacío
+      } catch (error) {
+        console.error("Error al cargar capacitaciones:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  const handleSearch = async (term: string, filters?: any) => {
     setSearchTerm(term);
 
-    let filtered = capacitacionesMock;
-
-    // Aplicar filtro de búsqueda por término
-    if (term) {
-      const searchLower = term.toLowerCase();
-      filtered = filtered.filter(
-        (cap) =>
-          cap.titulo.toLowerCase().includes(searchLower) ||
-          cap.descripcion.toLowerCase().includes(searchLower) ||
-          cap.categoria.toLowerCase().includes(searchLower) ||
-          cap.instructor.toLowerCase().includes(searchLower)
-      );
+    try {
+      const filtered = await capacitacionesService.filterCapacitaciones({
+        searchTerm: term,
+        ...filters,
+      });
+      setFilteredCapacitaciones(filtered);
+    } catch (error) {
+      console.error("Error al filtrar capacitaciones:", error);
     }
-
-    // Aplicar filtros adicionales si existen
-    if (filters) {
-      // Filtrar por categoría
-      if (filters.categorias && filters.categorias.length > 0) {
-        filtered = filtered.filter((cap) =>
-          filters.categorias.includes(cap.categoria)
-        );
-      }
-
-      // Filtrar por nivel
-      if (filters.niveles && filters.niveles.length > 0) {
-        filtered = filtered.filter((cap) =>
-          filters.niveles.includes(cap.nivel)
-        );
-      }
-
-      // Filtrar por duración
-      if (filters.duracionMax) {
-        filtered = filtered.filter((cap) => {
-          const duracionHoras = Number.parseInt(cap.duracion.split(" ")[0]);
-          return duracionHoras <= filters.duracionMax;
-        });
-      }
-
-      // Filtrar por precio
-      if (filters.precioMax) {
-        filtered = filtered.filter((cap) => cap.precio <= filters.precioMax);
-      }
-
-      // Filtrar por puntuación
-      if (filters.puntuacionMin) {
-        filtered = filtered.filter(
-          (cap) => cap.puntuacion >= filters.puntuacionMin
-        );
-      }
-
-      // Filtrar por disponibilidad
-      if (filters.soloDisponibles) {
-        filtered = filtered.filter((cap) => !cap.proximamente);
-      }
-    }
-
-    setFilteredCapacitaciones(filtered);
   };
 
-  // Obtener capacitaciones destacadas para el carrusel
-  const capacitacionesDestacadas = capacitacionesMock.filter(
-    (cap) => cap.destacada
-  );
-
-  // Obtener capacitaciones nuevas
-  const capacitacionesNuevas = capacitacionesMock.filter((cap) => cap.nueva);
-
-  // Obtener capacitaciones próximas
-  const capacitacionesProximas = capacitacionesMock.filter(
-    (cap) => cap.proximamente
-  );
-
-  // Obtener top 10
-  const capacitacionesTop10 = capacitacionesMock
-    .filter((cap) => cap.top10)
-    .sort((a, b) => b.puntuacion - a.puntuacion)
-    .slice(0, 10);
-
-  // Obtener por categoría (ejemplo: Hidroponía)
-  const capacitacionesHidroponia = capacitacionesMock.filter(
-    (cap) => cap.categoria === "Hidroponía"
-  );
-
-  // Obtener por nivel (ejemplo: Principiante)
-  const capacitacionesPrincipiante = capacitacionesMock.filter(
-    (cap) => cap.nivel === "Principiante"
-  );
-
   return (
-    <div className="min-h-screen bg-white text-gray-800 pb-16">
+    <div className="min-h-screen bg-green-100 text-gray-800 pb-16">
       {/* Barra de búsqueda */}
       <SearchBar
         onSearch={handleSearch}
@@ -114,11 +98,22 @@ export default function CapacitacionesPage() {
       />
 
       {/* Hero Carousel */}
-      {!searchTerm && (
+      {/* {!searchTerm && !loading && (
         <HeroCarousel capacitaciones={capacitacionesDestacadas} />
-      )}
+      )} */}
 
       <Container size="xl" className="mt-8">
+        {/* Botón para abrir el formulario de interés */}
+        <div className="flex justify-end mb-6">
+          <Button
+            color="green"
+            onClick={() => setIsFormModalOpen(true)}
+            className="bg-green-600 hover:bg-green-700"
+          >
+            ¿Te interesan nuestras capacitaciones?
+          </Button>
+        </div>
+
         {searchTerm ? (
           // Mostrar resultados de búsqueda
           <CapacitacionesSection
@@ -152,6 +147,15 @@ export default function CapacitacionesPage() {
           </>
         )}
       </Container>
+
+      {/* Modal de formulario de interés */}
+      <InterestFormModal
+        opened={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
+        title="¿Te interesan nuestras capacitaciones?"
+        origen="capacitaciones"
+        showCapacitacionesSelect={true}
+      />
     </div>
   );
 }

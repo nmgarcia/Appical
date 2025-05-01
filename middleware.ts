@@ -12,7 +12,8 @@ const ALLOWED_PATHS = [
   "/appical-logo.svg",
   "/directorio",
   "/placeholder.svg",
-  "/capacitaciones"
+  "/capacitaciones",
+  "/licitaciones"
 ]
 
 export function middleware(request: NextRequest) {
