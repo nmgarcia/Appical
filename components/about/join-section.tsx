@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { useForm } from "@mantine/form";
 import emailjs from "@emailjs/browser";
+import { emailService } from "@/services/emailService";
 
 export default function JoinSection() {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
@@ -72,31 +73,24 @@ export default function JoinSection() {
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "YOUR_PUBLIC_KEY";
 
       // Preparar los parámetros para la plantilla
-      const templateParams = {
+      const response = await emailService.sendEmail({
         from_name: values.name,
         from_email: values.email,
         message: values.message,
-        to_name: "Equipo Appical",
-        to_email: "agroappical@gmail.com",
-      };
-      debugger;
-      // Enviar el correo electrónico
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        publicKey
-      );
+        subject: "Nuevo mensaje de contacto desde Appical",
+      });
 
-      if (response.status === 200) {
+      if (response.success) {
         setEmailStatus({
           type: "success",
-          message:
-            "¡Mensaje enviado correctamente! Nos pondremos en contacto contigo pronto.",
+          message: response.message,
         });
         form.reset();
       } else {
-        throw new Error("Error al enviar el mensaje");
+        setEmailStatus({
+          type: "error",
+          message: response.message,
+        });
       }
     } catch (error) {
       console.error("Error al enviar el correo:", error);
