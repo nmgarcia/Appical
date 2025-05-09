@@ -94,18 +94,18 @@ export const emailService = {
         break
     }
 
-    // Añadir capacitaciones específicas si existen
-    if (capacitacionesTitulos && capacitacionesTitulos.length > 0) {
-      interestsText += `\nCapacitaciones de interés: ${capacitacionesTitulos.join(", ")}`
-    }
+    
 
     // Construir el mensaje completo
     let fullMessage = `Nuevo interés en ${origen}.\n\n`
     if (mensaje) {
       fullMessage += `Mensaje: ${mensaje}\n\n`
     }
-    fullMessage += "Por favor, contactar a la brevedad."
-
+    // Añadir capacitaciones específicas si existen
+    if (capacitacionesTitulos && capacitacionesTitulos.length > 0) {
+        fullMessage += `\nCapacitaciones de interés: ${capacitacionesTitulos.join(", ")}\n`
+      }
+   
     return emailService.sendEmail({
       from_name: nombre,
       from_email: email,

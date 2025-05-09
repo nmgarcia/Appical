@@ -19,6 +19,7 @@ import {
 } from "@/services/interesadosService";
 import { capacitacionesService } from "@/services/capacitacionesService";
 import type { Capacitacion } from "@/data/capacitaciones";
+import { emailService } from "@/services/emailService";
 
 interface InterestFormModalProps {
   opened: boolean;
@@ -41,6 +42,8 @@ export default function InterestFormModal({
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [capacitaciones, setCapacitaciones] = useState<Capacitacion[]>([]);
+  const [selectedCapacitacionesTitulos, setSelectedCapacitacionesTitulos] =
+    useState<string[]>([]);
 
   const form = useForm({
     initialValues: {
@@ -75,6 +78,21 @@ export default function InterestFormModal({
     }
   }, [showCapacitacionesSelect]);
 
+  // Actualizar títulos de capacitaciones seleccionadas cuando cambian los IDs
+  useEffect(() => {
+    if (form.values.capacitacionesIds.length > 0 && capacitaciones.length > 0) {
+      const titulos = form.values.capacitacionesIds
+        .map((id) => {
+          const capacitacion = capacitaciones.find((cap) => cap.id === id);
+          return capacitacion ? capacitacion.titulo : "";
+        })
+        .filter(Boolean);
+      setSelectedCapacitacionesTitulos(titulos);
+    } else {
+      setSelectedCapacitacionesTitulos([]);
+    }
+  }, [form.values.capacitacionesIds, capacitaciones]);
+
   const handleSubmit = async (values: typeof form.values) => {
     setLoading(true);
     setError(null);
@@ -95,12 +113,24 @@ export default function InterestFormModal({
 
       const response = await interesadosService.registrarInteresado(formData);
 
-      if (response.success) {
+      // 2. Enviar correo electrónico
+      const emailResponse = await emailService.sendInterestEmail(
+        values.nombre,
+        values.email,
+        values.telefono,
+        origen,
+        values.empresa,
+        values.mensaje,
+        selectedCapacitacionesTitulos
+      );
+
+      if (response.success && emailResponse.success) {
         setSuccess(true);
         form.reset();
       } else {
         setError(
           response.message ||
+            emailResponse.message ||
             "Ha ocurrido un error. Por favor, intenta nuevamente."
         );
       }
