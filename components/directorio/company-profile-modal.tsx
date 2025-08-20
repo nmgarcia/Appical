@@ -83,13 +83,19 @@ export default function CompanyProfileModal({
 
         {/* Logo */}
         <div className="absolute -bottom-16 left-8">
-          <Image
-            src={company.logo || "/placeholder.svg"}
-            width={120}
-            height={120}
-            alt={company.nombre}
-            className="border-4 border-white rounded-lg shadow-md"
-          />
+          <div className="w-[120px] h-[120px] relative bg-white rounded-lg shadow-md">
+            <Image
+              src={company.logo || "/placeholder.svg"}
+              alt={company.nombre}
+              className="border-4 border-white rounded-lg"
+              style={{ 
+                objectFit: 'contain',
+                padding: '8px',
+                width: '100%',
+                height: '100%'
+              }}
+            />
+          </div>
         </div>
       </div>
 
@@ -177,12 +183,14 @@ export default function CompanyProfileModal({
             </Text>
             <SimpleGrid cols={3} spacing="md" className="sm:grid-cols-1">
               {(company.galeria || []).map((imagen, index) => (
-                <Image
-                  key={index}
-                  src={imagen || "/placeholder.svg"}
-                  radius="md"
-                  alt={`Imagen ${index + 1}`}
-                />
+                <div key={index} className="aspect-square relative">
+                  <Image
+                    src={imagen || "/placeholder.svg"}
+                    radius="md"
+                    alt={`Imagen ${index + 1}`}
+                    className="object-cover"
+                  />
+                </div>
               ))}
             </SimpleGrid>
           </Tabs.Panel>

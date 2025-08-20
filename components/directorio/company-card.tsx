@@ -37,12 +37,16 @@ export default function CompanyCard({
         }`}
       >
         {/* Contenedor de imagen con altura fija */}
-        <div className="relative w-full h-48">
+        <div className="w-full h-[200px] relative mb-4 bg-white rounded-lg">
           <Image
-            src={company.logo}
-            alt={`Logo de ${company.nombre}`}
-            className="object-contain p-4 w-full h-full"
-            style={{ width: "100%", height: "100%" }}
+            src={company.logo || "/placeholder.svg"}
+            alt={company.nombre}
+            className="rounded-lg p-4"
+            style={{
+              objectFit: "contain",
+              width: "100%",
+              height: "100%",
+            }}
           />
         </div>
 

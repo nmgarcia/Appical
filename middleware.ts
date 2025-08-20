@@ -23,6 +23,8 @@ const ALLOWED_PATHS = [
   "/Bejologo.svg",
   "/carlucciologo.jpg",
   "/ffologo.jpg",
+  "/logo_asociacionhidroponica.png",
+  "/bannerprovisorio.jpg",
   "/logoasociacionhidroponicaargentina.png",
   "/logoagroazul.png",
   "/sustentagrosrllogo.jpg",

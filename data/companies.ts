@@ -86,7 +86,7 @@ export const companiesMock: Company[] = [
       " se especializa en la producción de frutas y hortalizas bajo el concepto de agricultura urbana. ",
     destacada: true,
     logo: "/desdeelllano-logo.png?height=200&width=200&text=Desde+el+llano",
-    banner: "/placeholder.svg?height=400&width=1200&text=Desde+el+llano+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Instalaciones",
       "/placeholder.svg?height=300&width=400&text=Productos",
@@ -118,7 +118,7 @@ export const companiesMock: Company[] = [
       "es una empresa argentina líder en la producción de vegetales hidropónicos y en la provisión de insumos para este tipo de cultivo. ",
     destacada: false,
     logo: "/logoverdeagua.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=HydroGrow+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Sistemas+NFT",
       "/placeholder.svg?height=300&width=400&text=Automatización",
@@ -149,8 +149,8 @@ export const companiesMock: Company[] = [
     descripcionCompleta:
       "Un espacio de divulgación técnica, experiencia e innovación, para fortalecer y potenciar el sector hidropónico argentino.",
     destacada: true,
-    logo: "/logoasociacionhidroponicaargentina.png",
-    banner: "/placeholder.svg?height=400&width=1200&text=Campo+Justo+Banner",
+    logo: "/logo_asociacionhidroponica.png",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Cooperativa",
@@ -182,7 +182,7 @@ export const companiesMock: Company[] = [
       "Enbio es una empresa que se especializa en la producción de enmiendas orgánicas y bioestimulantes para la agricultura. Su objetivo es mejorar la salud y la fertilidad de los suelos, así como la nutrición de los cultivos, mediante productos de origen biológico.",
     destacada: false,
     logo: "/logoenbio",
-    banner: "/placeholder.svg?height=400&width=1200&text=Biolife+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Laboratorio",
       "/placeholder.svg?height=300&width=400&text=Productos",
@@ -214,7 +214,7 @@ export const companiesMock: Company[] = [
       "se dedica a la explotación agrícola-ganadera. Su objeto social abarca una amplia gama de actividades, incluyendo la siembra y cosecha, el acopio, la comercialización y exportación de cereales, granos, frutas, productos vitivinícolas y forestales.",
     destacada: false,
     logo: "/sustentagrosrllogo.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -246,7 +246,7 @@ export const companiesMock: Company[] = [
       " líder en el diseño, construcción e instalación de jardines verticales y terrazas verdes. ",
     destacada: true,
     logo: "/logogwall.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=AgroNexo+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Plataforma",
       "/placeholder.svg?height=300&width=400&text=Equipo",
@@ -278,7 +278,7 @@ export const companiesMock: Company[] = [
       " se dedica a la provisión de insumos y equipos para el sector agropecuario, con un enfoque particular en la hidroponía.",
     destacada: true,
     logo: "/logoagroazul.png",
-    banner: "/placeholder.svg?height=400&width=1200&text=AgroNexo+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Plataforma",
       "/placeholder.svg?height=300&width=400&text=Equipo",
@@ -310,7 +310,7 @@ export const companiesMock: Company[] = [
       "se dedica a la venta de productos y soluciones para la producción de cultivos hortícolas.",
     destacada: false,
     logo: "/logosuagro.svg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -342,7 +342,7 @@ export const companiesMock: Company[] = [
       "venta de huertas urbanas y productos relacionados con la hidroponía, una técnica de cultivo sin tierra. Su objetivo es ayudar a las personas a cultivar sus propios alimentos de forma ecológica, sin el uso de pesticidas.",
     destacada: false,
     logo: "/logohidrotak.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -374,7 +374,7 @@ export const companiesMock: Company[] = [
       "empresa que se especializa en la venta de sustratos y otros productos para el cultivo.",
     destacada: false,
     logo: "/logoagriservice.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -406,7 +406,7 @@ export const companiesMock: Company[] = [
       "dedicada a la producción, importación y exportación de semillas.",
     destacada: false,
     logo: "/logoflorensa.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -438,7 +438,7 @@ export const companiesMock: Company[] = [
       "se especializa en la creación de dispositivos de riego inteligente basados en el Internet de las Cosas (IoT).",
     destacada: false,
     logo: "/logogreenbot.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -470,7 +470,7 @@ export const companiesMock: Company[] = [
       "empresa argentina que se especializa en la fabricación y venta de sustratos de alta calidad y otros insumos para el cultivo.",
     destacada: false,
     logo: "/logosatia.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -502,7 +502,7 @@ export const companiesMock: Company[] = [
       "reconocida empresa argentina en el sector agropecuario, dedicada a la producción, importación y comercialización de semillas.",
     destacada: false,
     logo: "/logoggch.svg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -534,7 +534,7 @@ export const companiesMock: Company[] = [
       " se especializa en la elaboración y comercialización de una enmienda biológica líquida que actúa como bioestimulante para plantas.",
     destacada: false,
     logo: "/ffologo.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -566,7 +566,7 @@ export const companiesMock: Company[] = [
       " dedicada a la investigación,desarrollo y comercialización de semillas hortícolas.",
     destacada: false,
     logo: "RijkZwaanArgentinalogo.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -598,7 +598,7 @@ export const companiesMock: Company[] = [
       "Optimizar los rendimientos de las siembras, mejorar la salud de los suelos y controlar plagas y malezas, utilizando tecnologías y prácticas sostenibles.",
     destacada: false,
     logo: "carlucciologo.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -630,7 +630,7 @@ export const companiesMock: Company[] = [
       "Transforma tu espacio con la naturaleza sin preocupaciones. Descubre nuestros jardines verticales - cuadros vivos de PVC con luz LED y riego mínimo. ",
     destacada: false,
     logo: "/xypnalogo.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -662,7 +662,7 @@ export const companiesMock: Company[] = [
       "especializada en el desarrollo, producción y comercialización de productos fitosanitarios para el sector agrícola. ",
     destacada: false,
     logo: "summitagrologo.jpg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
@@ -694,7 +694,7 @@ export const companiesMock: Company[] = [
       "compañía de origen holandés especializada en la mejora genética, producción y comercialización de semillas de hortalizas. La filial en Argentina, Bejo Semillas Argentinas S.A., se enfoca en proveer a los productores locales variedades híbridas de alta calidad, con características mejoradas en términos de rendimiento, resistencia a enfermedades y sabor.",
     destacada: false,
     logo: "/Bejologo.svg",
-    banner: "/placeholder.svg?height=400&width=1200&text=VerdeMenta+Banner",
+    banner: "/bannerprovisorio.jpg",
     galeria: [
       "/placeholder.svg?height=300&width=400&text=Cultivos",
       "/placeholder.svg?height=300&width=400&text=Destilación",
