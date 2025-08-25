@@ -1,6 +1,6 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
@@ -8,7 +8,11 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { AuthProvider } from "@/contexts/auth-context";
 
-const inter = Inter({ subsets: ["latin"] });
+const nunito = Nunito({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-nunito"
+});
 
 export const metadata: Metadata = {
   title: "Appical",
@@ -22,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={inter.className}>
+      <body className={nunito.className}>
         <MantineProvider>
           <AuthProvider>
             <div className="flex flex-col min-h-screen">

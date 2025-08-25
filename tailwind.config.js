@@ -65,6 +65,9 @@ module.exports = {
         md: "calc(var(--radius) - 8px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        'nunito': ['var(--font-nunito)', 'sans-serif'],
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
