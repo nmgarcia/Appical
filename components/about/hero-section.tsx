@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function HeroSection() {
+
   return (
     <div className="relative h-[80vh] min-h-[600px] flex items-center overflow-hidden">
       {/* Background Image */}

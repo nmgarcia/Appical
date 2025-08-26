@@ -6,9 +6,8 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
-import { AuthProvider } from "@/contexts/auth-context";
 
-const nunito = Nunito({ 
+const nunito = Nunito({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-nunito"
@@ -28,13 +27,11 @@ export default function RootLayout({
     <html lang="es">
       <body className={nunito.className}>
         <MantineProvider>
-          <AuthProvider>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <Footer />
-            </div>
-          </AuthProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </div>
         </MantineProvider>
       </body>
     </html>

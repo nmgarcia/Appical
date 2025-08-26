@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Text,
@@ -31,6 +31,7 @@ import {
 import { useForm } from "@mantine/form";
 import emailjs from "@emailjs/browser";
 import { emailService } from "@/services/emailService";
+import anime from "animejs"
 
 export default function JoinSection() {
   const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
@@ -56,6 +57,41 @@ export default function JoinSection() {
           : null,
     },
   });
+
+  useEffect(() => {
+    if (inView) {
+      // Animación de las tarjetas principales
+      anime({
+        targets: ".join-card",
+        translateY: [40, 0],
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 800,
+        easing: "easeOutCubic",
+        delay: anime.stagger(200),
+      })
+
+      // Animación de los botones sociales
+      anime({
+        targets: ".social-button",
+        scale: [0, 1],
+        rotate: [0, 360],
+        duration: 600,
+        easing: "easeOutBack",
+        delay: anime.stagger(100, { start: 1000 }),
+      })
+
+      // Efecto de ondas en el formulario
+      anime({
+        targets: ".form-wave",
+        scaleX: [0, 1],
+        opacity: [0, 0.1, 0],
+        duration: 2000,
+        easing: "easeInOutQuad",
+        delay: 600,
+      })
+    }
+  }, [inView])
 
   const handleSubmit = async (values: typeof form.values) => {
     debugger;
@@ -105,6 +141,252 @@ export default function JoinSection() {
   };
 
   return (
+    <div className="bg-green-50 py-20 relative overflow-hidden" id="contacto">
+      {/* Fondo animado con ondas */}
+      <motion.div
+        className="absolute inset-0 opacity-10"
+        animate={{
+          background: [
+            "radial-gradient(ellipse at 20% 50%, #22c55e 0%, transparent 70%)",
+            "radial-gradient(ellipse at 80% 50%, #16a34a 0%, transparent 70%)",
+            "radial-gradient(ellipse at 50% 20%, #15803d 0%, transparent 70%)",
+            "radial-gradient(ellipse at 20% 50%, #22c55e 0%, transparent 70%)",
+          ],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Ondas decorativas */}
+      <div className="form-wave absolute inset-0 bg-gradient-to-r from-green-200 to-transparent opacity-0" />
+
+      <Container size="lg" className="relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          <Title order={2} className="text-3xl font-bold mb-2">
+            Únete a la Revolución del Agro
+          </Title>
+          <motion.div
+            className="flex justify-center items-center mb-4"
+            animate={{
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "easeInOut",
+            }}
+          >
+            <div className="h-1 w-16 bg-green-500 rounded-full"></div>
+            <div className="h-1 w-4 bg-green-300 rounded-full mx-2"></div>
+            <div className="h-1 w-16 bg-green-500 rounded-full"></div>
+          </motion.div>
+          <Text size="lg" className="w-2xl text-gray-700 mb-8 text-center">
+            Forma parte de nuestra comunidad y transforma juntos la industria agroalimentaria.
+          </Text>
+        </motion.div>
+
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <Card
+              withBorder
+              shadow="md"
+              radius="lg"
+              p="xl"
+              className="join-card h-full hover:shadow-lg transition-all duration-300 relative overflow-hidden group"
+              style={{
+                background: "linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)",
+                borderLeft: "5px solid #16a34a",
+              }}
+            >
+              {/* Efecto hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <Group mb="md" className="relative z-10">
+                <motion.div
+                  animate={{
+                    rotate: [0, 10, -10, 0],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Users size={36} className="text-green-600" />
+                </motion.div>
+                <Title order={3} className="text-2xl font-bold text-green-700">
+                  Únete a Nuestra Comunidad
+                </Title>
+              </Group>
+              <Divider className="mb-4" />
+              <Text className="text-gray-700 mb-6 leading-relaxed relative z-10">
+                Appical es más que una plataforma digital: es una comunidad en crecimiento donde la tecnología, la
+                transparencia y la conexión transforman la industria agroalimentaria. Únete a la evolución del agro y sé
+                parte del cambio.
+              </Text>
+
+            </Card>
+
+            <Card
+              withBorder
+              shadow="md"
+              radius="lg"
+              p="xl"
+              className="join-card h-full hover:shadow-lg transition-all duration-300 relative overflow-hidden group"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)",
+                borderRight: "5px solid #16a34a",
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-bl from-green-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <Group mb="md" className="relative z-10">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <MessageCircle size={36} className="text-green-600" />
+                </motion.div>
+                <Title order={3} className="text-2xl font-bold text-green-700">
+                  Contáctanos
+                </Title>
+              </Group>
+              <Divider className="mb-4" />
+
+              {emailStatus.type && (
+                <Notification
+                  icon={emailStatus.type === "success" ? <Check size={18} /> : <X size={18} />}
+                  color={emailStatus.type === "success" ? "green" : "red"}
+                  title={emailStatus.type === "success" ? "¡Mensaje enviado!" : "Error"}
+                  onClose={() => setEmailStatus({ type: null, message: "" })}
+                  className="mb-4 relative z-10"
+                >
+                  {emailStatus.message}
+                </Notification>
+              )}
+
+              <form onSubmit={form.onSubmit(handleSubmit)} className="relative z-10">
+                <TextInput
+                  label="Nombre"
+                  placeholder="Tu nombre"
+                  required
+                  {...form.getInputProps("name")}
+                  className="mb-4"
+                />
+
+                <TextInput
+                  label="Email"
+                  placeholder="tu@email.com"
+                  required
+                  {...form.getInputProps("email")}
+                  className="mb-4"
+                />
+
+                <Textarea
+                  label="Mensaje"
+                  placeholder="¿Cómo podemos ayudarte?"
+                  required
+                  minRows={4}
+                  {...form.getInputProps("message")}
+                  className="mb-6"
+                />
+
+                <Button
+                  type="submit"
+                  color="green"
+                  fullWidth
+                  leftSection={<Send size={18} />}
+                  className="hover:bg-green-700 transition-all duration-300 hover:scale-105 transform"
+                  loading={isSubmitting}
+
+                >
+                  {isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+                </Button>
+              </form>
+            </Card>
+          </div>
+
+          <div className="text-center mt-16">
+            <Title order={4} className="text-xl font-bold mb-6">
+              Síguenos en Redes Sociales
+            </Title>
+
+            <Group justify="center" gap="lg">
+              <Button
+                variant="outline"
+                color="blue"
+                component="a"
+                href="#"
+                target="_blank"
+                radius="xl"
+                size="lg"
+                className="social-button hover:bg-blue-50 transition-all duration-300 hover:scale-110 transform bg-transparent"
+              >
+                <Facebook size={24} />
+              </Button>
+              <Button
+                variant="outline"
+                color="cyan"
+                component="a"
+                href="#"
+                target="_blank"
+                radius="xl"
+                size="lg"
+                className="social-button hover:bg-cyan-50 transition-all duration-300 hover:scale-110 transform bg-transparent"
+              >
+                <Twitter size={24} />
+              </Button>
+              <Button
+                variant="outline"
+                color="pink"
+                component="a"
+                href="#"
+                target="_blank"
+                radius="xl"
+                size="lg"
+                className="social-button hover:bg-pink-50 transition-all duration-300 hover:scale-110 transform bg-transparent"
+              >
+                <Instagram size={24} />
+              </Button>
+              <Button
+                variant="outline"
+                color="indigo"
+                component="a"
+                href="#"
+                target="_blank"
+                radius="xl"
+                size="lg"
+                className="social-button hover:bg-indigo-50 transition-all duration-300 hover:scale-110 transform bg-transparent"
+              >
+                <Linkedin size={24} />
+              </Button>
+            </Group>
+          </div>
+        </motion.div>
+      </Container>
+    </div>
+  );
+}
+{/*return (
     <div className="bg-green-50 py-20" id="contacto">
       <Container size="lg">
         <motion.div
@@ -159,7 +441,7 @@ export default function JoinSection() {
                 del agro y sé parte del cambio.
               </Text>
 
-              {/* <Group justify="center" gap="md" className="mt-8">
+              <Group justify="center" gap="md" className="mt-8">
                 <Button
                   component={Link}
                   href="/registro"
@@ -180,7 +462,7 @@ export default function JoinSection() {
                 >
                   Iniciar Sesión
                 </Button>
-              </Group> */}
+              </Group> 
             </Card>
 
             <Card
@@ -324,4 +606,4 @@ export default function JoinSection() {
       </Container>
     </div>
   );
-}
+}*/};

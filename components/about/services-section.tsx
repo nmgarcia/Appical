@@ -21,9 +21,12 @@ import {
   Gavel,
   ArrowRight,
 } from "lucide-react";
+import anime from "animejs";
+import { useEffect, useRef } from "react";
 
 export default function ServicesSection() {
-  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true })
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -33,7 +36,7 @@ export default function ServicesSection() {
         staggerChildren: 0.2,
       },
     },
-  };
+  }
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -42,11 +45,57 @@ export default function ServicesSection() {
       y: 0,
       transition: { duration: 0.6 },
     },
-  };
+  }
+
+  useEffect(() => {
+    if (inView) {
+      // Animación de las tarjetas de servicios
+      anime({
+        targets: ".service-card",
+        translateY: [50, 0],
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 800,
+        easing: "easeOutCubic",
+        delay: anime.stagger(150),
+      })
+
+      // Animación de los iconos
+      anime({
+        targets: ".service-icon",
+        scale: [0, 1],
+        rotate: [0, 360],
+        duration: 1000,
+        easing: "easeOutElastic(1, .6)",
+        delay: anime.stagger(100, { start: 400 }),
+      })
+
+      // Efecto de ondas en el fondo
+      anime({
+        targets: ".wave-effect",
+        scaleX: [0, 1],
+        opacity: [0, 0.1, 0],
+        duration: 3000,
+        easing: "easeInOutQuad",
+        delay: anime.stagger(500, { start: 800 }),
+      })
+    }
+  }, [inView])
 
   return (
-    <div className="bg-green-50 py-20" id="servicios">
-      <Container size="lg">
+    <div className="bg-green-50 py-20 relative overflow-hidden" id="servicios" ref={sectionRef}>
+      {/* Efectos de ondas de fondo */}
+      {[...Array(3)].map((_, i) => (
+        <div
+          key={i}
+          className="wave-effect absolute inset-0 bg-gradient-to-r from-green-200 to-transparent opacity-0"
+          style={{
+            transform: `translateX(-100%) rotate(${i * 15}deg)`,
+            transformOrigin: "center",
+          }}
+        />
+      ))}
+      <Container size="lg" className="relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -56,14 +105,28 @@ export default function ServicesSection() {
           <Title order={2} className="text-3xl font-bold mb-2">
             ¿Qué Ofrecemos?
           </Title>
-          <div className="flex justify-center items-center mb-4">
-            <div className="h-1 w-16 bg-green-500 rounded-full"></div>
-            <div className="h-1 w-4 bg-green-300 rounded-full mx-2"></div>
-            <div className="h-1 w-16 bg-green-500 rounded-full"></div>
-          </div>
+          <motion.div
+            className="flex justify-center items-center mb-4"
+            animate={{
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "easeInOut",
+            }}
+          >
+            <div className="flex justify-center items-center mb-4">
+              <div className="h-1 w-16 bg-green-500 rounded-full"></div>
+              <div className="h-1 w-4 bg-green-300 rounded-full mx-2"></div>
+              <div className="h-1 w-16 bg-green-500 rounded-full"></div>
+            </div>
+          </motion.div>
+
         </motion.div>
 
         <motion.div
+
           ref={ref}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
@@ -76,14 +139,15 @@ export default function ServicesSection() {
                 shadow="sm"
                 radius="lg"
                 p={0}
-                className="h-full overflow-hidden hover:shadow-md transition-all duration-300"
+                className="service-card h-full overflow-hidden hover:shadow-md transition-all duration-300 group"
               >
-                <div className="relative h-56 w-full">
+                <div className="relative h-56 w-full overflow-hidden">
                   <Image
                     src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
                     alt="Sistema de Licitaciones"
                     fill
                     style={{ objectFit: "cover" }}
+                    className="group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
                   <div className="absolute top-4 left-4">
@@ -91,7 +155,7 @@ export default function ServicesSection() {
                       size={60}
                       radius="xl"
                       color="green"
-                      className="border-4 border-white"
+                      className="border-4 border-white service-icon"
                     >
                       <Gavel size={30} />
                     </ThemeIcon>
@@ -99,10 +163,7 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="p-6 relative -mt-16 bg-white rounded-t-3xl">
-                  <Title
-                    order={3}
-                    className="text-2xl font-bold mb-3 text-green-700"
-                  >
+                  <Title order={3} className="text-2xl font-bold mb-3 text-green-700">
                     Sistema de Licitaciones
                   </Title>
                   <Divider className="mb-4" />
@@ -134,14 +195,15 @@ export default function ServicesSection() {
                 shadow="sm"
                 radius="lg"
                 p={0}
-                className="h-full overflow-hidden hover:shadow-md transition-all duration-300"
+                className="service-cardh-full overflow-hidden hover:shadow-md transition-all duration-300 group"
               >
-                <div className="relative h-56 w-full">
+                <div className="relative h-56 w-full hover:shadow-md overflow-hidden">
                   <Image
                     src="https://images.unsplash.com/photo-1551836022-deb4988cc6c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
                     alt="Centro de Capacitación"
                     fill
                     style={{ objectFit: "cover" }}
+                    className="group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
                   <div className="absolute top-4 left-4">
@@ -149,7 +211,7 @@ export default function ServicesSection() {
                       size={60}
                       radius="xl"
                       color="green"
-                      className="border-4 border-white"
+                      className="border-4 border-white service-icon"
                     >
                       <GraduationCap size={30} />
                     </ThemeIcon>
@@ -157,10 +219,7 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="p-6 relative -mt-16 bg-white rounded-t-3xl">
-                  <Title
-                    order={3}
-                    className="text-2xl font-bold mb-3 text-green-700"
-                  >
+                  <Title order={3} className="text-2xl font-bold mb-3 text-green-700">
                     Centro de Capacitación
                   </Title>
                   <Divider className="mb-4" />
@@ -191,14 +250,15 @@ export default function ServicesSection() {
                 shadow="sm"
                 radius="lg"
                 p={0}
-                className="h-full overflow-hidden hover:shadow-md transition-all duration-300"
+                className="service-card h-full overflow-hidden hover:shadow-md transition-all duration-300 group"
               >
-                <div className="relative h-56 w-full">
+                <div className="relative h-56 w-full overflow-hidden">
                   <Image
                     src="https://images.unsplash.com/photo-1595351298020-038700609878?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
                     alt="Directorio de Empresas"
                     fill
                     style={{ objectFit: "cover" }}
+                    className="group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
                   <div className="absolute top-4 left-4">
@@ -206,7 +266,7 @@ export default function ServicesSection() {
                       size={60}
                       radius="xl"
                       color="green"
-                      className="border-4 border-white"
+                      className="border-4 border-white service-icon"
                     >
                       <Building2 size={30} />
                     </ThemeIcon>
@@ -248,14 +308,15 @@ export default function ServicesSection() {
                 shadow="sm"
                 radius="lg"
                 p={0}
-                className="h-full overflow-hidden hover:shadow-md transition-all duration-300"
+                className="service-card h-full overflow-hidden hover:shadow-md transition-all duration-300 group"
               >
-                <div className="relative h-56 w-full">
+                <div className="relative h-56 w-full overflow-hidden">
                   <Image
                     src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
                     alt="Marketplace Agro"
                     fill
                     style={{ objectFit: "cover" }}
+                    className="group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
                   <div className="absolute top-4 left-4">
@@ -263,7 +324,7 @@ export default function ServicesSection() {
                       size={60}
                       radius="xl"
                       color="green"
-                      className="border-4 border-white"
+                      className="border-4 border-white service-icon"
                     >
                       <ShoppingCart size={30} />
                     </ThemeIcon>
