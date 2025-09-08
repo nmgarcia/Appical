@@ -43,10 +43,10 @@ export default function Header() {
               Licitaciones
             </Link>
             <Link
-              href="/about-us"
+              href="/home"
               className="text-gray-700 hover:text-green-600"
             >
-              Quiénes somos
+              Inicio
             </Link>
 
           </nav>
@@ -84,10 +84,10 @@ export default function Header() {
               Licitaciones
             </Link>
             <Link
-              href="/about-us"
+              href="/home"
               className="text-gray-700 hover:text-green-600"
             >
-              Quiénes somos
+              Inicio
             </Link>
 
           </nav>

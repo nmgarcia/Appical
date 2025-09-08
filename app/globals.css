@@ -86,6 +86,15 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Z-Index System */
+  .z-background { z-index: -10; }
+  .z-content { z-index: 10; }
+  .z-15 { z-index: 15; }
+  .z-overlay { z-index: 20; }
+  .z-modal { z-index: 30; }
+  .z-tooltip { z-index: 40; }
+  .z-max { z-index: 50; }
 }
 
 @layer base {

@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server"
 // Rutas permitidas
 const ALLOWED_PATHS = [
   "/",
-  "/about-us",
+  "/home",
   "/_next",
   "/api", 
   "/favicon.ico",
@@ -45,9 +45,9 @@ export function middleware(request: NextRequest) {
   // Verificar si la ruta está permitida
   const isAllowed = ALLOWED_PATHS.some((path) => pathname === path || pathname.startsWith(path + "/"))
 
-  // Si no está permitida, redirigir a la página de acerca-de
+  // Si no está permitida, redirigir a la página de inicio
   if (!isAllowed) {
-    return NextResponse.redirect(new URL("/about-us", request.url))
+    return NextResponse.redirect(new URL("/home", request.url))
   }
 
   return NextResponse.next()

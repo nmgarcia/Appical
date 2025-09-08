@@ -77,10 +77,10 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/acerca-de"
+                  href="/home"
                   className="text-gray-300 hover:text-white"
                 >
-                  Acerca de
+                  Inicio
                 </Link>
               </li>
               <li>

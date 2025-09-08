@@ -23,18 +23,18 @@ export default function HeroSection() {
         />
       </div>
 
-      <Container size="lg" className="relative z-10 text-white">
+      <Container size="lg" className="relative z-content text-white">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-3xl"
         >
-          <Title className="text-5xl font-bold mb-6 text-green-0">
+          <Title className="hero-title text-5xl font-bold mb-6 text-green-0">
             El futuro del agro está aquí: conecta, aprende y crece con Appical.
           </Title>
 
-          <Text size="xl" className="mb-8 text-gray-100">
+          <Text size="xl" className="hero-subtitle mb-8 text-gray-100">
             Innovación, Conexión y Crecimiento para el Agro del Futuro. La
             tecnología y la naturaleza se unen en Appical para transformar la
             industria agrícola. Conéctate con un ecosistema de productores,
@@ -47,7 +47,7 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
-            className="flex flex-wrap gap-4"
+            className="hero-cta flex flex-wrap gap-4"
           >
             <Button
               component={Link}
