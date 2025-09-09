@@ -9,7 +9,8 @@ const ALLOWED_PATHS = [
   "/api", 
   "/favicon.ico",
   "/placeholder-logo.png",
-  "/appical-logo.svg",
+  "/appical-logo.png",
+  "/appical-logo-largo.png",
   "/directorio",
   "/logoverdeagua.jpg",
   "/logoagriservice.jpg",
@@ -36,7 +37,8 @@ const ALLOWED_PATHS = [
   "/desdeelllano-logo.svg",
   "/desdeelllano-logo.png",
   "/capacitaciones",
-  "/licitaciones"
+  "/licitaciones",
+  "/about-us"
 ]
 
 export function middleware(request: NextRequest) {

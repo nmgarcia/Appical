@@ -10,7 +10,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
               <Image
-                src="/appical-logo.svg"
+                src="/appical-logo-largo.png"
                 alt="Appical Logo"
                 width={100}
                 height={100}

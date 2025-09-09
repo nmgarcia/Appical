@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import AboutUsPage from "@/components/about/about-us-page";
+import HeroSection from "@/components/home/hero-section";
+import ProvidersCarousel from "@/components/home/providers-carousel";
+import CapacitacionesCarousel from "@/components/home/capacitaciones-carousel";
+import JoinSection from "@/components/about/join-section";
 
 export const metadata: Metadata = {
     title: "Inicio | Appical - Plataforma Agrícola",
@@ -15,8 +18,15 @@ export const metadata: Metadata = {
 
 /**
  * Home page component - Main landing page of the application
- * Displays the about us content as the primary landing experience
+ * Features a vibrant hero section, providers carousel, capacitaciones carousel, and join section
  */
 export default function HomePage() {
-    return <AboutUsPage />;
+    return (
+        <div className="min-h-screen">
+            <HeroSection />
+            <ProvidersCarousel />
+            <CapacitacionesCarousel />
+            <JoinSection backgroundColor="white" />
+        </div>
+    );
 }

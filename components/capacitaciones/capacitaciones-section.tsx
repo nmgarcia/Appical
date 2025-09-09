@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Title, Text, ScrollArea } from "@mantine/core";
+import { useState, useRef } from "react";
+import { Title, Text, ScrollArea, Container } from "@mantine/core";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import CapacitacionCard from "./capacitacion-card";
 import type { Capacitacion } from "@/data/capacitaciones";
@@ -21,21 +21,20 @@ export default function CapacitacionesSection({
   const [scrollPosition, setScrollPosition] = useState(0);
   const [maxScroll, setMaxScroll] = useState(0);
   const scrollAmount = 300;
+  const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = (direction: "left" | "right") => {
-    const scrollAreaElement = document.getElementById(
-      `scroll-area-${title.replace(/\s+/g, "-").toLowerCase()}`
-    );
-    if (scrollAreaElement) {
+    if (scrollAreaRef.current) {
+      const currentScroll = scrollAreaRef.current.scrollLeft;
       const newPosition =
         direction === "left"
-          ? scrollPosition - scrollAmount
-          : scrollPosition + scrollAmount;
-      scrollAreaElement.scrollTo({
+          ? Math.max(0, currentScroll - scrollAmount)
+          : Math.min(maxScroll, currentScroll + scrollAmount);
+
+      scrollAreaRef.current.scrollTo({
         left: newPosition,
         behavior: "smooth",
       });
-      setScrollPosition(newPosition);
     }
   };
 
@@ -80,11 +79,11 @@ export default function CapacitacionesSection({
       </button>
 
       <ScrollArea
-        id={`scroll-area-${title.replace(/\s+/g, "-").toLowerCase()}`}
         type="never"
         onScrollPositionChange={handleScrollPositionChange}
         viewportRef={(viewport) => {
           if (viewport) {
+            (scrollAreaRef as any).current = viewport;
             setMaxScroll(viewport.scrollWidth - viewport.clientWidth);
           }
         }}

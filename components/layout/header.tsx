@@ -14,7 +14,7 @@ export default function Header() {
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/appical-logo.svg"
+            src="/appical-logo-largo.png"
             alt="Appical Logo"
             width={150}
             height={75}
@@ -41,6 +41,12 @@ export default function Header() {
               className="text-gray-700 hover:text-green-600"
             >
               Licitaciones
+            </Link>
+            <Link
+              href="/about-us"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Acerca de
             </Link>
             <Link
               href="/home"
@@ -82,6 +88,12 @@ export default function Header() {
               className="text-gray-700 hover:text-green-600"
             >
               Licitaciones
+            </Link>
+            <Link
+              href="/about-us"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Acerca de
             </Link>
             <Link
               href="/home"
